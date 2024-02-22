@@ -1,5 +1,6 @@
 import express from 'express'
 import { getItems, uploadFile } from '../controllers/FileController.js';
+import { registerUser } from '../controllers/UserController.js';
 import multer from 'multer'
 
 const router = express.Router()
@@ -27,5 +28,7 @@ router.get('/', (req, res) => {
 router.get('/getitems', getItems)
 
 router.post('/upload', upload.single("constancia"), uploadFile )
+
+router.post("/register", upload.single("constancia"), registerUser)
 
 export default router

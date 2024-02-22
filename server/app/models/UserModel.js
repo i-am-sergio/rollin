@@ -6,7 +6,7 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  password: {
+  cui: {
     type: String,
     required: true,
   },

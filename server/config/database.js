@@ -5,7 +5,6 @@ const CONNECTION = process.env.MONGODB_CONNECTION;
 
 export async function startServer() {
   try {
-    console.log(CONNECTION);
     await mongoose.connect(CONNECTION, {
       useNewUrlParser: true,
       useUnifiedTopology: true,

@@ -2,9 +2,10 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 
-import FileRoute from "./routes/FileRoute.js";
+import FileRoute from "./app/routes/FileRoute.js";
 
 const app = express();
+const port = 5000;
 
 // middlewares
 app.use(bodyParser.json()); // for parsing application/json
@@ -14,7 +15,6 @@ app.use(cors()); // for enabling CORS
 // routes
 app.use("/", FileRoute);
 
-const port = 5000;
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);

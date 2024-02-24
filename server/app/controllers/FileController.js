@@ -1,8 +1,4 @@
-import {
-  getInfoConstancia,
-  extractCourses,
-  validateData,
-} from "../services/FileService.js";
+import { getInfoConstancia, extractCourses, validateData } from "../services/FileService.js";
 
 // get items from pdf
 export const getItems = async (req, res) => {

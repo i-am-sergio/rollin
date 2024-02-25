@@ -1,23 +1,29 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { signUp, logIn } from "../actions/AuthActions"; // Asegúrate de importar las acciones correctamente
 
 interface UserData {
-  firstname: string;
+  cui: string;
+  email: string;
+  name: string;
   lastname: string;
-  username: string;
   password: string;
   confirmpass: string;
+  constancia: File | null;
+  role: string;
 }
 
 const Auth: React.FC = () => {
   const initialState: UserData = {
-    firstname: "",
+    cui: "",
+    email: "",
+    name: "",
     lastname: "",
-    username: "",
     password: "",
     confirmpass: "",
+    role: "user",
+    constancia: null,
   };
   const loading: boolean = useSelector((state: any) => state.loading);
   const navigate = useNavigate();
@@ -31,15 +37,31 @@ const Auth: React.FC = () => {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setData({ ...data, [e.target.name]: e.target.value });
+    if (e.target.type === "file") {
+      setData({
+        ...data,
+        constancia: e.target.files ? e.target.files[0] : null,
+      });
+    } else {
+      setData({ ...data, [e.target.name]: e.target.value });
+    }
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     setConfirmPass(true);
     e.preventDefault();
+    const formData = new FormData();
+    formData.append("cui", data.cui);
+    formData.append("email", data.email);
+    formData.append("name", data.name);
+    formData.append("lastname", data.lastname);
+    formData.append("password", data.password);
+    formData.append("role", data.role);
+    formData.append("constancia", data.constancia || "");
+
     if (isSignUp) {
       data.password === data.confirmpass
-        ? dispatch<any>(signUp(data, navigate))
+        ? dispatch<any>(signUp(formData, navigate))
         : setConfirmPass(false);
     } else {
       dispatch<any>(logIn(data, navigate));
@@ -57,26 +79,46 @@ const Auth: React.FC = () => {
       <div className="a-left">{/* left side */}</div>
       <div className="a-right">
         {/* right form side */}
-        <form className="infoForm authForm" onSubmit={handleSubmit}>
+        <form
+          className="infoForm authForm"
+          onSubmit={handleSubmit}
+          encType="multipart/form-data"
+        >
           <h3>{isSignUp ? "Register" : "Login"}</h3>
           {isSignUp && (
             <div>
               <input
                 required
                 type="text"
-                placeholder="First Name"
+                placeholder="CUI"
                 className="infoInput"
-                name="firstname"
-                value={data.firstname}
+                name="cui"
+                value={data.cui}
                 onChange={handleChange}
               />
               <input
                 required
                 type="text"
-                placeholder="Last Name"
+                placeholder="Nombres"
+                className="infoInput"
+                name="name"
+                value={data.name}
+                onChange={handleChange}
+              />
+              <input
+                required
+                type="text"
+                placeholder="Apellidos"
                 className="infoInput"
                 name="lastname"
                 value={data.lastname}
+                onChange={handleChange}
+              />
+              <input
+                type="file"
+                id="pdfFile"
+                name="pdfFile"
+                accept=".pdf"
                 onChange={handleChange}
               />
             </div>
@@ -85,11 +127,11 @@ const Auth: React.FC = () => {
           <div>
             <input
               required
-              type="text"
-              placeholder="Username"
+              type="email"
+              placeholder="Correo Institucional"
               className="infoInput"
-              name="username"
-              value={data.username}
+              name="email"
+              value={data.email}
               onChange={handleChange}
             />
           </div>
@@ -139,8 +181,8 @@ const Auth: React.FC = () => {
               }}
             >
               {isSignUp
-                ? "Already have an account Login"
-                : "Don't have an account Sign up"}
+                ? "Ya tienes una cuenta Inicia sesion"
+                : "No tienes una cuenta Registrate"}
             </span>
             <button className="button infoButton" disabled={loading}>
               {buttonText}

@@ -25,7 +25,7 @@ const Auth: React.FC = () => {
     role: "user",
     constancia: null,
   };
-  const loading: boolean = useSelector((state: any) => state.loading);
+  const loading: boolean = useSelector((state: any) => state.auth.loading);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isSignUp, setIsSignUp] = useState<boolean>(false);
@@ -89,11 +89,11 @@ const Auth: React.FC = () => {
             <div>
               <input
                 required
-                type="text"
-                placeholder="CUI"
+                type="email"
+                placeholder="Correo Institucional"
                 className="infoInput"
-                name="cui"
-                value={data.cui}
+                name="email"
+                value={data.email}
                 onChange={handleChange}
               />
               <input
@@ -127,11 +127,11 @@ const Auth: React.FC = () => {
           <div>
             <input
               required
-              type="email"
-              placeholder="Correo Institucional"
+              type="text"
+              placeholder="CUI"
               className="infoInput"
-              name="email"
-              value={data.email}
+              name="cui"
+              value={data.cui}
               onChange={handleChange}
             />
           </div>

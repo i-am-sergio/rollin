@@ -6,8 +6,8 @@ import { useSelector } from "react-redux";
 import { AuthState } from "./reducers/AuthReducer";
 
 function App(): JSX.Element {
-  const user = useSelector((state: AuthState) => state.authData);
-
+  const user = useSelector((state: AuthState) => state.auth.authData);
+  console.log("Hola ss", user);
   return (
     <div
       className="App"

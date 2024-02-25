@@ -19,7 +19,7 @@ const Auth: React.FC = () => {
     password: "",
     confirmpass: "",
   };
-  const loading: boolean = useSelector((state: any) => state.authReducer.loading);
+  const loading: boolean = useSelector((state: any) => state.loading);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isSignUp, setIsSignUp] = useState<boolean>(false);
@@ -39,20 +39,22 @@ const Auth: React.FC = () => {
     e.preventDefault();
     if (isSignUp) {
       data.password === data.confirmpass
-        ? dispatch(signUp(data, navigate))
+        ? dispatch<any>(signUp(data, navigate))
         : setConfirmPass(false);
     } else {
-      dispatch(logIn(data, navigate));
+      dispatch<any>(logIn(data, navigate));
     }
   };
 
-  let buttonText: string = loading ? "Loading..." : isSignUp ? "SignUp" : "Login";
+  const buttonText: string = loading
+    ? "Loading..."
+    : isSignUp
+    ? "SignUp"
+    : "Login";
 
   return (
     <div className="Auth">
-      <div className="a-left">
-        {/* left side */}
-      </div>
+      <div className="a-left">{/* left side */}</div>
       <div className="a-right">
         {/* right form side */}
         <form className="infoForm authForm" onSubmit={handleSubmit}>
@@ -140,11 +142,8 @@ const Auth: React.FC = () => {
                 ? "Already have an account Login"
                 : "Don't have an account Sign up"}
             </span>
-            <button
-              className="button infoButton"
-              disabled={loading}
-            >
-              { buttonText }
+            <button className="button infoButton" disabled={loading}>
+              {buttonText}
             </button>
           </div>
         </form>

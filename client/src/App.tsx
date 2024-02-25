@@ -1,12 +1,12 @@
-import React from "react";
 import "./App.css";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
-import Auth from "./pages/Auth/Auth";
+import Auth from "./pages/Auth";
 import { useSelector } from "react-redux";
+import { AuthState } from "./reducers/AuthReducer";
 
 function App(): JSX.Element {
-  const user = useSelector((state: any) => state.authReducer.authData);
+  const user = useSelector((state: AuthState) => state.authData);
 
   return (
     <div

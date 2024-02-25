@@ -1,4 +1,8 @@
-import { getInfoConstancia, extractCourses, validateData } from "../services/FileService.js";
+import {
+  getInfoConstancia,
+  extractCourses,
+  validateData,
+} from "../services/FileService.js";
 
 // get items from pdf
 export const getItems = async (req, res) => {
@@ -19,6 +23,7 @@ export const uploadFile = async (req, res) => {
     const items = await getInfoConstancia(pdfPath);
     const isValid = await validateData(items, req.body.full_name, req.body.cui);
     if (!isValid) {
+      console.log("Los datos no son válidos");
       res.status(400).send("Los datos no son válidos");
       return;
     }

@@ -1,4 +1,3 @@
-
 // save user in the database mongoose function 
 export const saveUser = async (user) => {
     try {

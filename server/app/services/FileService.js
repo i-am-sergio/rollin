@@ -41,7 +41,7 @@ export async function validateData(items, full_name, cui) {
     const dateString = items[dateValueIndex];
     const year = dateString.split("-")[0];
     const currentYear = new Date().getFullYear();
-    if (year !== (currentYear - 1).toString()) {
+    if (year !== (currentYear - 2).toString()) {
       //quitar -1
       throw new Error(`La constancia no es del año actual`);
     }

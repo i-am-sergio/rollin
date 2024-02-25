@@ -1,6 +1,6 @@
 import { saveUser } from "../services/UserService.js";
 
-export const registerUser = async (req, res) => {
+export const userMatriculate = async (req, res) => {
     try{
         const user = req.body;
         // validate request

@@ -1,15 +1,13 @@
-import "./App.css";
-import { Routes, Route, Navigate } from "react-router-dom";
-import Home from "./pages/Home";
-import Auth from "./pages/Auth";
-import "./i18n";
-import { useSelector } from "react-redux";
-import { AuthState } from "./reducers/AuthReducer";
-import LanguageSelector from "./i18n/LanguageSelector";
+import "./App.css"
+import { Routes, Route, Navigate } from "react-router-dom"
+import Home from "./pages/Home"
+import Auth from "./pages/Auth"
+import "./i18n"
+import { useSelector } from "react-redux"
+// import LanguageSelector from "./i18n/LanguageSelector"
 
 function App(): JSX.Element {
-  const user = useSelector((state: AuthState) => state.auth.authData);
-  console.log("Hola ss", user);
+  const user = useSelector((state: any) => state.authReducer.authData)
   return (
     <div
       className="App"
@@ -20,7 +18,7 @@ function App(): JSX.Element {
             : "auto",
       }}
     >
-      <LanguageSelector />
+      {/* <LanguageSelector /> */}
       <div className="blur" style={{ top: "70%", right: "-2rem" }}></div>
       <div className="blur" style={{ top: "20%", left: "-6rem" }}></div>
       <Routes>

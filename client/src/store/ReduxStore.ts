@@ -4,9 +4,9 @@ import {
   compose,
 } from "redux";
 import { thunk } from "redux-thunk";
-import { reducers, RootState } from "../reducers";
+import { reducers } from "../reducers";
 
-function saveToLocalStorage(state: RootState): void {
+const saveToLocalStorage = (state: any): void => {
   try {
     const serializedState = JSON.stringify(state);
     window.localStorage.setItem("store", serializedState);
@@ -15,7 +15,7 @@ function saveToLocalStorage(state: RootState): void {
   }
 }
 
-function loadFromLocalStorage(): RootState | undefined {
+const loadFromLocalStorage = (): any => {
   try {
     const serializedState = window.localStorage.getItem("store");
     if (serializedState === null) return undefined;
@@ -26,11 +26,8 @@ function loadFromLocalStorage(): RootState | undefined {
   }
 }
 
-const composeEnhancers =
-  (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
+const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const persistedState = loadFromLocalStorage();
-
 const store = createStore(
   reducers,
   persistedState,

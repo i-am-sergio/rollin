@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { signUp, logIn } from "../actions/AuthActions"; // Asegúrate de importar las acciones correctamente
-
+import { signUp, logIn } from "../actions/AuthActions";
+import { AuthState } from "../reducers/AuthReducer";
 interface UserData {
   cui: string;
   email: string;
@@ -15,6 +16,7 @@ interface UserData {
 }
 
 const Auth: React.FC = () => {
+  const { t } = useTranslation();
   const initialState: UserData = {
     cui: "",
     email: "",
@@ -25,7 +27,9 @@ const Auth: React.FC = () => {
     role: "user",
     constancia: null,
   };
-  const loading: boolean = useSelector((state: any) => state.auth.loading);
+  const loading: boolean = useSelector(
+    (state: AuthState) => state.auth.loading
+  );
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isSignUp, setIsSignUp] = useState<boolean>(false);
@@ -57,7 +61,7 @@ const Auth: React.FC = () => {
     formData.append("lastname", data.lastname);
     formData.append("password", data.password);
     formData.append("role", data.role);
-    formData.append("constancia", data.constancia || "");
+    formData.append("constancia", data.constancia ?? "");
 
     if (isSignUp) {
       data.password === data.confirmpass
@@ -67,16 +71,17 @@ const Auth: React.FC = () => {
       dispatch<any>(logIn(data, navigate));
     }
   };
-
-  const buttonText: string = loading
-    ? "Loading..."
-    : isSignUp
-    ? "SignUp"
-    : "Login";
-
+  let buttonText: string;
+  if (loading) {
+    buttonText = t("Auth.buttonTextLoading");
+  } else {
+    buttonText = isSignUp
+      ? t("Auth.buttonTextSignUp")
+      : t("Auth.buttonTextLogin");
+  }
   return (
     <div className="Auth">
-      <div className="a-left">{/* left side */}</div>
+      <div className="a-left"></div>
       <div className="a-right">
         {/* right form side */}
         <form
@@ -84,13 +89,13 @@ const Auth: React.FC = () => {
           onSubmit={handleSubmit}
           encType="multipart/form-data"
         >
-          <h3>{isSignUp ? "Register" : "Login"}</h3>
+          <h3>{isSignUp ? t("Auth.register") : t("Auth.login")}</h3>
           {isSignUp && (
             <div>
               <input
                 required
                 type="email"
-                placeholder="Correo Institucional"
+                placeholder={t("Auth.email")}
                 className="infoInput"
                 name="email"
                 value={data.email}
@@ -99,7 +104,7 @@ const Auth: React.FC = () => {
               <input
                 required
                 type="text"
-                placeholder="Nombres"
+                placeholder={t("Auth.firstNames")}
                 className="infoInput"
                 name="name"
                 value={data.name}
@@ -108,7 +113,7 @@ const Auth: React.FC = () => {
               <input
                 required
                 type="text"
-                placeholder="Apellidos"
+                placeholder={t("Auth.lastNames")}
                 className="infoInput"
                 name="lastname"
                 value={data.lastname}
@@ -128,7 +133,7 @@ const Auth: React.FC = () => {
             <input
               required
               type="text"
-              placeholder="CUI"
+              placeholder={t("Auth.cui")}
               className="infoInput"
               name="cui"
               value={data.cui}
@@ -140,7 +145,7 @@ const Auth: React.FC = () => {
               required
               type="password"
               className="infoInput"
-              placeholder="Password"
+              placeholder={t("Auth.password")}
               name="password"
               value={data.password}
               onChange={handleChange}
@@ -151,7 +156,7 @@ const Auth: React.FC = () => {
                 type="password"
                 className="infoInput"
                 name="confirmpass"
-                placeholder="Confirm Password"
+                placeholder={t("Auth.confirmPassword")}
                 onChange={handleChange}
               />
             )}
@@ -166,7 +171,7 @@ const Auth: React.FC = () => {
               display: confirmPass ? "none" : "block",
             }}
           >
-            *Confirm password is not same
+            {t("Auth.confirmPasswordMismatch")}
           </span>
           <div>
             <span
@@ -181,8 +186,8 @@ const Auth: React.FC = () => {
               }}
             >
               {isSignUp
-                ? "Ya tienes una cuenta Inicia sesion"
-                : "No tienes una cuenta Registrate"}
+                ? t("Auth.alreadyHaveAccount")
+                : t("Auth.dontHaveAccount")}
             </span>
             <button className="button infoButton" disabled={loading}>
               {buttonText}

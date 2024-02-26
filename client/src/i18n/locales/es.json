@@ -1,0 +1,24 @@
+{
+  "Auth": {
+    "buttonTextLoading": "Cargando...",
+    "buttonTextSignUp": "Registrarse",
+    "buttonTextLogin": "Iniciar sesión",
+    "register": "Registrarse",
+    "login": "Iniciar sesión",
+    "email": "Correo Institucional",
+    "firstNames": "Nombres",
+    "lastNames": "Apellidos",
+    "cui": "CUI",
+    "password": "Contraseña",
+    "confirmPassword": "Confirmar Contraseña",
+    "confirmPasswordMismatch": "*Las contraseñas no coinciden",
+    "alreadyHaveAccount": "Ya tienes una cuenta? Inicia sesión",
+    "dontHaveAccount": "No tienes una cuenta? Regístrate"
+  },
+  "Home": {
+    "welcome": "Bienvenido",
+    "authenticationData": "Datos de autenticación:",
+    "firstName": "Nombre:",
+    "lastName": "Apellido:"
+  }
+}

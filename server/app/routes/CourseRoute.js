@@ -7,8 +7,8 @@ import {
 
 const router = express.Router();
 
-router.post("/course/create", courseCreate);
-router.get("/course/", courseFindAll);
-router.get("/course/labs", courseFindAllWithLabs);
+router.post("/", courseCreate);
+router.get("/", courseFindAll);
+router.get("/labs", courseFindAllWithLabs);
 
 export default router;

@@ -23,7 +23,11 @@ export const courseCreate = async (req, res) => {
 export const courseFindAll = async (req, res) => {
   try {
     const data = await getAllCourses();
-    return res.status(200).json(data);
+    return res.status(200).json(
+      data.sort((a, b) => {
+        return a.code.localeCompare(b.code);
+      })
+    );
   } catch (error) {
     res.status(500).json("Error interno del servidor");
   }

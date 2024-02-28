@@ -26,6 +26,7 @@
     "dash": "Dashboard",
     "admin": "Admin",
     "notify": "View notifications",
-    "menu": "Open user menu"
+    "menu": "Open user menu",
+    "logout": "Log Out"
   }
 }

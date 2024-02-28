@@ -188,6 +188,12 @@ const Auth: React.FC = () => {
               </span>
               <div className="px-2 sm:px-6">
                 <button
+                  className="w-full text-gray-600 bg-lime-300 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-lime-300 dark:hover:bg-lime-400 dark:focus:ring-primary-800"
+                  disabled={loading}
+                >
+                  {buttonText}
+                </button>
+                <button
                   style={{
                     fontSize: "12px",
                     cursor: "pointer",
@@ -197,18 +203,13 @@ const Auth: React.FC = () => {
                     resetForm();
                     setIsSignUp((prev) => !prev);
                   }}
-                  className="font-medium text-gray-300 hover:underline dark:text-gray-300 pb-3"
+                  className="font-medium text-gray-300 hover:underline dark:text-gray-300 pt-4"
                 >
                   {isSignUp
                     ? t("Auth.alreadyHaveAccount")
                     : t("Auth.dontHaveAccount")}
                 </button>
-                <button
-                  className="w-full text-gray-600 bg-lime-300 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-lime-300 dark:hover:bg-lime-400 dark:focus:ring-primary-800"
-                  disabled={loading}
-                >
-                  {buttonText}
-                </button>
+                
               </div>
             </form>
           </div>

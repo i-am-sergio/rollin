@@ -2,7 +2,6 @@ import "./App.css";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Home from "./pages/Home";
 import Auth from "./pages/Auth";
-import Admin from "./pages/Admin";
 import "./i18n";
 import { useSelector } from "react-redux";
 
@@ -32,10 +31,6 @@ function App(): JSX.Element {
         <Route
           path="/auth"
           element={user ? <Navigate to="../home" /> : <Auth />}
-        />
-        <Route
-          path="/admin"
-          element={user ? <Admin /> : <Navigate to="../auth" />}
         />
         <Route
           path="*"

@@ -26,6 +26,7 @@
     "dash": "Tablero",
     "admin": "Administrador",
     "notify": "Ver notificaciones",
-    "menu": "Abrir menú de usuario"
+    "menu": "Abrir menú de usuario",
+    "logout": "Cerrar sesión"
   }
 }

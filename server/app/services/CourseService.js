@@ -1,16 +1,5 @@
 // save course in the database mongoose function
-export const saveCourse = async (course) => {
-  try {
-    const newCourse = new CourseModel({
-      name: course.name,
-      code: course.code,
-      labs: course.labs,
-    });
-    return await newCourse.save();
-  } catch (error) {
-    throw new Error("Error interno del servidor");
-  }
-};
+import CourseModel from "../models/CourseModel.js";
 
 // get all courses from the database mongoose function
 export const getAllCourses = async () => {

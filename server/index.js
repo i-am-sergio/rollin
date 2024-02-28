@@ -8,6 +8,7 @@ import AuthRoute from "./app/routes/AuthRoute.js";
 import FileRoute from "./app/routes/FileRoute.js";
 import UserRoute from "./app/routes/UserRoute.js";
 import AdminRoute from "./app/routes/AdminRoute.js";
+import CourseRoute from "./app/routes/CourseRoute.js";
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -19,10 +20,11 @@ app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x
 app.use(cors()); // for enabling CORS
 
 // routes
-app.use("/auth", AuthRoute)
-app.use("/file", FileRoute)
-app.use("/user", UserRoute)
-app.use("/admin", AdminRoute)
+app.use("/auth", AuthRoute);
+app.use("/file", FileRoute);
+app.use("/user", UserRoute);
+app.use("/admin", AdminRoute);
+app.use("/course", CourseRoute);
 
 app.listen(port, () => {
   connectDB();

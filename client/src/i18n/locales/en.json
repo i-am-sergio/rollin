@@ -20,5 +20,12 @@
     "authenticationData": "Authentication Data:",
     "firstName": "First Name:",
     "lastName": "Last Name:"
+  },
+  "NavBar": {
+    "button": "Open main menu",
+    "dash": "Dashboard",
+    "admin": "Admin",
+    "notify": "View notifications",
+    "menu": "Open user menu"
   }
 }

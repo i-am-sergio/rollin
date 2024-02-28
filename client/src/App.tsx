@@ -5,7 +5,6 @@ import Auth from "./pages/Auth";
 import Admin from "./pages/Admin";
 import "./i18n";
 import { useSelector } from "react-redux";
-import LanguageSelector from "./i18n/LanguageSelector";
 
 function App(): JSX.Element {
   const user = useSelector((state: any) => state.authReducer.authData);
@@ -19,7 +18,6 @@ function App(): JSX.Element {
             : "auto",
       }}
     >
-      <LanguageSelector />
       <div className="blur" style={{ top: "70%", right: "-2rem" }}></div>
       <div className="blur" style={{ top: "20%", left: "-6rem" }}></div>
       <Routes>

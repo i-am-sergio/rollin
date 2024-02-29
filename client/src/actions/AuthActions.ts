@@ -5,7 +5,6 @@ export const logIn =
         dispatch({ type: "AUTH_START" });
         try {
             const { data } = await AuthApi.logIn(formData);
-            console.log(data);
             dispatch({ type: "AUTH_SUCCESS", data: data });
             navigate("../home", { replace: true });
         } catch (error) {

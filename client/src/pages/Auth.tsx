@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { signUp, logIn } from "../actions/AuthActions";
+import LanguageSelector from "../i18n/LanguageSelector";
 
 interface UserData {
   cui: string;
@@ -27,7 +28,9 @@ const Auth: React.FC = () => {
     role: "user",
     constancia: null,
   };
-  const loading: boolean = useSelector((state: any) => state.authReducer.loading);
+  const loading: boolean = useSelector(
+    (state: any) => state.authReducer.loading
+  );
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [isSignUp, setIsSignUp] = useState<boolean>(false);
@@ -81,10 +84,15 @@ const Auth: React.FC = () => {
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
+      <div className="absolute top-0 right-0 p-4">
+        <LanguageSelector />
+      </div>
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
-            <h3 className="text-center py-2 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white" >{isSignUp ? "Registro" : "Login"}</h3>
+            <h3 className="text-center py-2 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+              {isSignUp ? t("Auth.register") : t("Auth.login")}
+            </h3>
             <form
               className="infoForm authForm space-y-4 md:space-y-6"
               onSubmit={handleSubmit}
@@ -100,46 +108,39 @@ const Auth: React.FC = () => {
                   value={data.cui}
                   onChange={handleChange}
                 />
-                {
-                  isSignUp && (
-                    <input
-                      required
-                      type="email"
-                      placeholder={t("Auth.email")}
-                      className="outline-none my-4 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-lime-300 dark:focus:border-lime-300"
-                      name="email"
-                      value={data.email}
-                      onChange={handleChange}
-                    />
-                  )
-                }
-                {
-                  isSignUp && (
-                    <input
-                      required
-                      type="text"
-                      placeholder={t("Auth.firstNames")}
-                      className="outline-none my-4 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-lime-300 dark:focus:border-lime-300"
-                      name="name"
-                      value={data.name}
-                      onChange={handleChange}
-                    />
-
-                  )
-                }
-                {
-                  isSignUp && (
-                    <input
-                      required
-                      type="text"
-                      placeholder={t("Auth.lastNames")}
-                      className="outline-none my-4 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-lime-300 dark:focus:border-lime-300"
-                      name="lastname"
-                      value={data.lastname}
-                      onChange={handleChange}
-                    />
-                  )
-                }
+                {isSignUp && (
+                  <input
+                    required
+                    type="email"
+                    placeholder={t("Auth.email")}
+                    className="outline-none my-4 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-lime-300 dark:focus:border-lime-300"
+                    name="email"
+                    value={data.email}
+                    onChange={handleChange}
+                  />
+                )}
+                {isSignUp && (
+                  <input
+                    required
+                    type="text"
+                    placeholder={t("Auth.firstNames")}
+                    className="outline-none my-4 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-lime-300 dark:focus:border-lime-300"
+                    name="name"
+                    value={data.name}
+                    onChange={handleChange}
+                  />
+                )}
+                {isSignUp && (
+                  <input
+                    required
+                    type="text"
+                    placeholder={t("Auth.lastNames")}
+                    className="outline-none my-4 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-lime-300 dark:focus:border-lime-300"
+                    name="lastname"
+                    value={data.lastname}
+                    onChange={handleChange}
+                  />
+                )}
                 <input
                   required
                   type="password"
@@ -174,7 +175,6 @@ const Auth: React.FC = () => {
                 </div>
               )}
 
-
               <span
                 style={{
                   color: "red",
@@ -188,6 +188,12 @@ const Auth: React.FC = () => {
               </span>
               <div className="px-2 sm:px-6">
                 <button
+                  className="w-full text-gray-600 bg-lime-300 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-lime-300 dark:hover:bg-lime-400 dark:focus:ring-primary-800"
+                  disabled={loading}
+                >
+                  {buttonText}
+                </button>
+                <button
                   style={{
                     fontSize: "12px",
                     cursor: "pointer",
@@ -197,15 +203,13 @@ const Auth: React.FC = () => {
                     resetForm();
                     setIsSignUp((prev) => !prev);
                   }}
-                  className="font-medium text-gray-300 hover:underline dark:text-gray-300 pb-3"
+                  className="font-medium text-gray-300 hover:underline dark:text-gray-300 pt-4"
                 >
-                  {isSignUp ? t("Auth.alreadyHaveAccount") : t("Auth.dontHaveAccount")}
+                  {isSignUp
+                    ? t("Auth.alreadyHaveAccount")
+                    : t("Auth.dontHaveAccount")}
                 </button>
-                <button
-                  className="w-full text-gray-600 bg-lime-300 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-lime-300 dark:hover:bg-lime-400 dark:focus:ring-primary-800"
-                  disabled={loading}>
-                  {buttonText}
-                </button>
+                
               </div>
             </form>
           </div>

@@ -19,7 +19,7 @@ const Courses = ({ courses }: any) => {
                 {course.name.substring(0, 10)}
               </p>
 
-              <Link to={`/addlab/${course.code}`} className="mt-3 text-black dark:text-white hover:text-blue-600 inline-flex items-center">
+              <Link to={`/addlab/${course.code}/${course.name}`} className="mt-3 text-black dark:text-white hover:text-blue-600 inline-flex items-center">
                 {t("Courses.add")}
               </Link>
               

@@ -16,14 +16,15 @@ const Admin: React.FC = () => {
   // const { user } = useSelector((state: any) => state.authReducer.authData);
   let { coursesData } = useSelector((state: any) => state.courseReducer);
 
+  useEffect(() => {
+    setSelectedCicle('A');
+    dispatch<any>(getAllCourses());
+  }, [dispatch])
+
   // Funcion para seleccionar solo los cursos que estan en el semestre 1
   const coursesPerSemester = (s: number) => {
     return coursesData.filter((course: any) => course.semestre == s)
   }
-
-  useEffect(() => {
-    dispatch<any>(getAllCourses());
-  }, [dispatch])
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -34,6 +35,9 @@ const Admin: React.FC = () => {
     };
   }, []);
 
+  if (!coursesData) {
+    return <div>No Courses</div>;
+  }
 
   return (
     <div>
@@ -42,7 +46,7 @@ const Admin: React.FC = () => {
       </div>
 
       <select name="cicle" value={selectedCicle} onChange={handleCicleChange}>
-        <option value="A">Semestre A</option>
+        <option selected value="A">Semestre A</option>
         <option value="B">Semestre B</option>
       </select>
       <div>

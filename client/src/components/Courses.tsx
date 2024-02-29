@@ -1,5 +1,7 @@
+import { Link } from "react-router-dom"
+import { useTranslation } from "react-i18next";
 const Courses = ({ courses }: any) => {
-
+  const { t } = useTranslation();
   return (
     <div className="flex flex-wrap justify-center mt-10">
       {courses.map((course: any) => (
@@ -16,7 +18,13 @@ const Courses = ({ courses }: any) => {
               <p className="leading-relaxed text-base text-white dark:text-gray-300">
                 {course.name.substring(0, 10)}
               </p>
-              <a href="/home" className="mt-3 text-black dark:text-white hover:text-blue-600 inline-flex items-center">Descargar Matriculados
+
+              <Link to={`/addlab/${course.code}/${course.name}`} className="mt-3 text-black dark:text-white hover:text-blue-600 inline-flex items-center">
+                {t("Courses.add")}
+              </Link>
+              
+              <a href="/home" className="mt-3 text-black dark:text-white hover:text-blue-600 inline-flex items-center">
+                {t("Courses.download")}
               </a>
             </div>
           </div>

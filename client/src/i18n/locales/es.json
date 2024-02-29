@@ -28,5 +28,9 @@
     "notify": "Ver notificaciones",
     "menu": "Abrir menú de usuario",
     "logout": "Cerrar sesión"
+  },
+  "Courses": {
+    "add":"Agregar Lab",
+    "download": "Descargar Matriculados"
   }
 }

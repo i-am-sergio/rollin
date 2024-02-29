@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Auth from "./pages/Auth";
 import "./i18n";
 import { useSelector } from "react-redux";
+import LabsForm from "./pages/LabsForm";
 
 function App(): JSX.Element {
   const user = useSelector((state: any) => state.authReducer.authData);
@@ -31,6 +32,10 @@ function App(): JSX.Element {
         <Route
           path="/auth"
           element={user ? <Navigate to="../home" /> : <Auth />}
+        />
+        <Route
+          path="/addlab/:code/:course"
+          element={user ? <LabsForm /> : <Auth />}
         />
         <Route
           path="*"

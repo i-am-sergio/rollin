@@ -33,8 +33,10 @@ function App(): JSX.Element {
           path="/auth"
           element={user ? <Navigate to="../home" /> : <Auth />}
         />
-        <Route path="/addlab/:code" element={ <LabsForm /> } />
-
+        <Route
+          path="/addlab/:code/:course"
+          element={user ? <LabsForm /> : <Auth />}
+        />
         <Route
           path="*"
           element={

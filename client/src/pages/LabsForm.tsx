@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, Link } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import Lab from "../components/Lab";
-import { createLab, getLabByCourse } from "../actions/LabActions";
-import { use } from "i18next";
+import { getLabByCourse } from "../actions/LabActions";
 
 interface LabFormData {
   course: string;
@@ -21,19 +20,9 @@ const LabsForm = () => {
   const codeString = String(code);
   let { labData } = useSelector((state: any) => state.labReducer); 
 
-  
-  const initialState: LabFormData = {
-    course: "",
-    group: "A",
-    teacher: "",
-    schedule: "",
-  };
-
   const dispatch = useDispatch();
   const [letter, setLetter] = useState("A");
   const [numClicks, setNumClicks] = useState(0);
-  const [data, setData] = useState<LabFormData>(initialState)
-  const [changed, setChanged] = useState(false)
   
   useEffect(() => {
     // Llama a la acción 'getLabByCourse' y despacha la acción para obtener los laboratorios por curso
@@ -48,7 +37,7 @@ const LabsForm = () => {
   }, [labData]);
   
 
-  const handleClickAddCourse = () => {
+  const handleClickAddLab = () => {
     // Incrementa la letra para el siguiente grupo
     const nextLetter = String.fromCharCode(letter.charCodeAt(0) + 1);
     
@@ -64,7 +53,7 @@ const LabsForm = () => {
     setLabs(prevLabs => [...prevLabs, newLab]);
   }
 
-  const handleClickDeleteCourse = () => {
+  const handleClickDeleteLab = () => {
     if (numClicks > 0) {
       setNumClicks((prev) => prev - 1);
       setLetter((prevLetter) =>
@@ -73,16 +62,6 @@ const LabsForm = () => {
     }
   }
 
-  const handleClickDelete = (e: any) => {
-    e.preventDefault()
-    alert("Delete")
-  }
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setData({ ...data, [e.target.name]: e.target.value })
-  }
-
-  // console.log("LAB DATA => ", labData)
   return (
     <div>
       <NavBar user={user} />
@@ -128,18 +107,18 @@ const LabsForm = () => {
                   <button
                     type="button"
                     className="w-full text-gray-600 bg-lime-300 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-lime-300 dark:hover:bg-lime-400 dark:focus:ring-primary-800 mr-2"
-                    onClick={handleClickAddCourse}
+                    onClick={handleClickAddLab}
                   >
-                    Add Course
+                    Add Lab
                   </button>
                   )}
                   {numClicks > 0 && (
                     <button
                       type="button"
                       className="w-full text-gray-600 bg-red-300 hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-300 dark:hover:bg-red-400 dark:focus:ring-red-800 ml-2"
-                      onClick={handleClickDeleteCourse}
+                      onClick={handleClickDeleteLab}
                     >
-                      Delete Last Course
+                      Delete Last Lab
                     </button>
                   )}
                 </div>

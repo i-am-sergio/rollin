@@ -41,24 +41,35 @@ const Admin: React.FC = () => {
 
   return (
     <div>
-      <div className="flex justify-center">
+      {/* <div className="flex justify-center">
         <h1>{currentDate.toLocaleDateString()}</h1>
+      </div> */}
+
+      <div 
+          className="flex justify-center"
+      
+      >
+        <select 
+          name="cicle" value={selectedCicle} 
+          onChange={handleCicleChange}
+          className="my-6 w-full mx-5 h-8 bg-slate-300 rounded-md hover:cursor-pointer sm:mx-48"
+        >
+          <option value="A">Semestre A</option>
+          <option value="B">Semestre B</option>
+        </select>
+
       </div>
 
-      <select name="cicle" value={selectedCicle} onChange={handleCicleChange}>
-        <option value="A">Semestre A</option>
-        <option value="B">Semestre B</option>
-      </select>
       <div>
-        <h2>Primer Año</h2>
+        <h2 className="text-2xl text-center pt-5 font-bold" >Primer Año</h2>
         {selectedCicle === 'A' ? <Courses courses={coursesPerSemester(1)} /> : <Courses courses={coursesPerSemester(2)} />}
-        <h2>Segundo Año</h2>
+        <h2 className="text-2xl text-center pt-5 font-bold" >Segundo Año</h2>
         {selectedCicle === 'A' ? <Courses courses={coursesPerSemester(3)} /> : <Courses courses={coursesPerSemester(4)} />}
-        <h2>Tercer Año</h2>
+        <h2 className="text-2xl text-center pt-5 font-bold" >Tercer Año</h2>
         {selectedCicle === 'A' ? <Courses courses={coursesPerSemester(5)} /> : <Courses courses={coursesPerSemester(6)} />}
-        <h2>Cuarto Año</h2>
+        <h2 className="text-2xl text-center pt-5 font-bold" >Cuarto Año</h2>
         {selectedCicle === 'A' ? <Courses courses={coursesPerSemester(7)} /> : <Courses courses={coursesPerSemester(8)} />}
-        <h2>Quinto Año</h2>
+        <h2 className="text-2xl text-center pt-5 font-bold" >Quinto Año</h2>
         {selectedCicle === 'A' ? <Courses courses={coursesPerSemester(9)} /> : <Courses courses={coursesPerSemester(10)} />}
       </div>
 

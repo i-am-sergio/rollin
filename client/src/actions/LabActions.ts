@@ -1,9 +1,10 @@
 import * as LabApi from '../api/LabRequests'
 
-export const getAllLabs = () => async (dispatch: any) => {
+export const getLabByCourse = (course: any) => async (dispatch: any) => {
     dispatch({ type: "RETREIVING_START" });
     try {
-        const { data } = await LabApi.getLabs();
+        const { data } = await LabApi.getLabByCourse(course);
+        console.log("***CORRECT REQUEST => ", data);
         dispatch({ type: "RETREIVING_SUCCESS", data: data });
     } catch (error) {
         console.log(error);
@@ -24,3 +25,4 @@ export const createLab = (newLab: any) => async (dispatch: any) => {
         dispatch({ type: "CREATING_FAIL" });
     }
 }
+

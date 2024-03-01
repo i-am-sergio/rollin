@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, Link } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import Lab from "../components/Lab";
-import { createLab } from "../actions/LabActions";
+import { createLab, getLabByCourse } from "../actions/LabActions";
+import { use } from "i18next";
 
 interface LabFormData {
   course: string;
@@ -16,8 +17,10 @@ const LabsForm = () => {
   const { user } = useSelector((state: any) => state.authReducer.authData);
   const [labs, setLabs] = useState([]);
   const { code, course } = useParams();
-  // const codeString = String(code);
+  const codeString = String(code);
+  let { labData } = useSelector((state: any) => state.labReducer); 
 
+  
   const initialState: LabFormData = {
     course: "",
     group: "A",
@@ -30,6 +33,12 @@ const LabsForm = () => {
   const [numClicks, setNumClicks] = useState(0);
   const [data, setData] = useState<LabFormData>(initialState)
   const [changed, setChanged] = useState(false)
+  
+  useEffect(() => {
+    // Llama a la acción 'getLabByCourse' y despacha la acción para obtener los laboratorios por curso
+    dispatch<any>(getLabByCourse(codeString));
+  }, [dispatch, course]);
+
 
   const handleClickAddCourse = () => {
     // agregar un nuevo lab al array de labs
@@ -63,6 +72,7 @@ const LabsForm = () => {
     // dispatch<any>(createLab(data))
   }
 
+  console.log("LAB DATA => ", labData)
   return (
     <div>
       <NavBar user={user} />
@@ -87,9 +97,14 @@ const LabsForm = () => {
                 </div>
                 { 
                 // muestra los labs existentes
-                  (labs.length > 0) &&
-                  labs.map((lab: any, index: number) => (
-                    <Lab key={index} index={index} letter={String.fromCharCode(65 + index)} />
+                  (labData.length > 0) &&
+                  labData.map((lab: any, index: number) => (
+                    <Lab 
+                      key={index} 
+                      index={index} 
+                      letter={String.fromCharCode(65 + index)} 
+                      labData = {lab}  
+                    />
                   ))
                 }
                 {

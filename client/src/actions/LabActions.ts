@@ -4,7 +4,6 @@ export const getLabByCourse = (course: any) => async (dispatch: any) => {
     dispatch({ type: "RETREIVING_START" });
     try {
         const { data } = await LabApi.getLabByCourse(course);
-        console.log("***CORRECT REQUEST => ", data);
         dispatch({ type: "RETREIVING_SUCCESS", data: data });
     } catch (error) {
         console.log(error);
@@ -17,11 +16,9 @@ export const createLab = (newLab: any) => async (dispatch: any) => {
     console.log("DATA QUE SE ENVIA => ", newLab);
     try {
         const { data } = await LabApi.createLab(newLab);
-        console.log("***CORRECT REQUEST");
         dispatch({ type: "CREATING_SUCCESS", data: data });
     } catch (error) {
         console.log(error);
-        console.log("***FAIL REQUEST");
         dispatch({ type: "CREATING_FAIL" });
     }
 }

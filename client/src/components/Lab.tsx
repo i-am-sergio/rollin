@@ -10,6 +10,7 @@ interface LabFormData {
 }
 
 const Lab = ({ index, letter, labData }: { index: number, letter: string, labData : any }) => {
+  
   const initialState: LabFormData = {
     course: "",
     group: letter,
@@ -17,7 +18,7 @@ const Lab = ({ index, letter, labData }: { index: number, letter: string, labDat
     schedule: "",
   };
 
-  console.log("***labData from lab.jsx => ", labData);
+  // console.log("***labData from lab.jsx => ", labData);
 
   const dispatch = useDispatch();
   const [data, setData] = useState<LabFormData>(initialState);

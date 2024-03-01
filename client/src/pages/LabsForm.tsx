@@ -10,6 +10,7 @@ interface LabFormData {
   group: string;
   teacher: string;
   schedule: string;
+  mode?: string;
 }
 
 const LabsForm = () => {
@@ -18,49 +19,45 @@ const LabsForm = () => {
   const [labs, setLabs] = useState<LabFormData[]>([]);
   const { code, course } = useParams();
   const codeString = String(code);
-  let { labData } = useSelector((state: any) => state.labReducer); 
-
+  let { labData } = useSelector((state: any) => state.labReducer);
   const dispatch = useDispatch();
   const [letter, setLetter] = useState("A");
   const [numClicks, setNumClicks] = useState(0);
-  
+
   useEffect(() => {
     // Llama a la acción 'getLabByCourse' y despacha la acción para obtener los laboratorios por curso
     dispatch<any>(getLabByCourse(codeString));
   }, [dispatch, codeString]);
-  
-    // Actualiza el estado 'labs' cuando 'labData' cambie
+
+  // Actualiza el estado 'labs' cuando 'labData' cambie
   useEffect(() => {
     if (labData) {
       setLabs(labData);
     }
   }, [labData]);
-  
 
   const handleClickAddLab = () => {
-    // Incrementa la letra para el siguiente grupo
+    setNumClicks((prev) => prev + 1);
     const nextLetter = String.fromCharCode(letter.charCodeAt(0) + 1);
-    
-    // Crea un nuevo laboratorio con los datos iniciales
     const newLab: LabFormData = {
       course: codeString,
       group: nextLetter,
       teacher: "",
       schedule: "",
+      mode: "edit",
     };
-    
-    // Agrega el nuevo laboratorio al estado 'labs'
-    setLabs(prevLabs => [...prevLabs, newLab]);
-  }
+    setLabs((prevLabs) => [...prevLabs, newLab]);
+  };
 
   const handleClickDeleteLab = () => {
     if (numClicks > 0) {
-      setNumClicks((prev) => prev - 1);
+      setLabs((prevLabs) => prevLabs.slice(0, -1));
       setLetter((prevLetter) =>
         String.fromCharCode(prevLetter.charCodeAt(0) - 1)
       );
+      setNumClicks((prev) => prev - 1);
     }
-  }
+  };
 
   return (
     <div>
@@ -84,33 +81,29 @@ const LabsForm = () => {
                     Course: {course}
                   </h3>
                 </div>
-                { 
-                // muestra los labs existentes
-                  (labs.length > 0) &&
-                  labs.map((lab: any, index: number) => (
-                    <Lab 
-                      key={index} 
-                      index={index} 
-                      letter={String.fromCharCode(65 + index)} 
-                      labData = {lab}  
-                    />
-                  ))
-                }
                 {
-                  // muestra un boton para agregar un nuevo lab
-                  (labs.length === 0) &&
-                  <h2>No hay</h2>
+                  // muestra los labs existentes
+                  labs.length > 0 &&
+                    labs.map((lab: any, index: number) => (
+                      <Lab
+                        key={index}
+                        index={index}
+                        letter={String.fromCharCode(65 + index)}
+                        labData={lab}
+                        mode={lab.mode || "view"}
+                      />
+                    ))
                 }
-               
+                {labs.length === 0 && <h2>No hay</h2>}
                 <div className="px-2 sm:px-6 flex justify-between">
-                {91 > 65 + numClicks && (
-                  <button
-                    type="button"
-                    className="w-full text-gray-600 bg-lime-300 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-lime-300 dark:hover:bg-lime-400 dark:focus:ring-primary-800 mr-2"
-                    onClick={handleClickAddLab}
-                  >
-                    Add Lab
-                  </button>
+                  {labs.length < 26 && (
+                    <button
+                      type="button"
+                      className="w-full text-gray-600 bg-lime-300 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-lime-300 dark:hover:bg-lime-400 dark:focus:ring-primary-800 mr-2"
+                      onClick={handleClickAddLab}
+                    >
+                      Add Lab
+                    </button>
                   )}
                   {numClicks > 0 && (
                     <button

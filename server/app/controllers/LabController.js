@@ -2,6 +2,8 @@ import {
   saveLab,
   getAllLabs,
   getAllLabsByCourse,
+  deleteLabByCourse,
+  updateLabByCourse,
 } from "../services/LabService.js";
 
 export const labCreate = async (req, res) => {
@@ -37,6 +39,39 @@ export const labFindByCourse = async (req, res) => {
       return;
     }
     const data = await getAllLabsByCourse(course);
+    return res.status(200).json(data);
+  } catch (error) {
+    res.status(500).json("Error interno del servidor");
+  }
+};
+
+export const labUpdateByCourse = async (req, res) => {
+  try {
+    const group = req.params.group;
+    const course = req.params.course;
+    const lab = req.body;
+    if (!group || !course || !lab) {
+      console.log("Content can not be empty!");
+      res.status(400).json({ message: "Content can not be empty!" });
+      return;
+    }
+    const data = await updateLabByCourse(group, course, lab);
+    return res.status(200).json(data);
+  } catch (error) {
+    res.status(500).json("Error interno del servidor");
+  }
+};
+
+export const labDeleteByCourse = async (req, res) => {
+  try {
+    const group = req.params.group;
+    const course = req.params.course;
+    if (!group || !course) {
+      console.log("Content can not be empty!");
+      res.status(400).json({ message: "Content can not be empty!" });
+      return;
+    }
+    const data = await deleteLabByCourse(group, course);
     return res.status(200).json(data);
   } catch (error) {
     res.status(500).json("Error interno del servidor");

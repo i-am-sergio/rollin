@@ -30,6 +30,26 @@ export const getAllLabsByCourse = async (course) => {
   }
 };
 
+export const updateLabByCourse = async (group, course, newData) => {
+  try {
+    const existingLab = await LabModel.findOne({ group, course });
+    if (!existingLab) {
+      throw new Error("No se encontró el laboratorio");
+    }
+    const updatedLab = await LabModel.findOneAndUpdate(
+      { group, course },
+      newData,
+      { new: true }
+    );
+    if (!updatedLab) {
+      throw new Error("No se pudo actualizar el laboratorio");
+    }
+    return updatedLab;
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};
+
 export const deleteLabByCourse = async (group, course) => {
   try {
     const lab = await LabModel.findOneAndDelete({ group, course });

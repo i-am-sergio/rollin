@@ -9,13 +9,15 @@ interface LabFormData {
   schedule: string;
 }
 
-const Lab = ({ index, letter }: { index: number, letter: string }) => {
+const Lab = ({ index, letter, labData }: { index: number, letter: string, labData : any }) => {
   const initialState: LabFormData = {
     course: "",
     group: letter,
     teacher: "",
     schedule: "",
   };
+
+  console.log("***labData from lab.jsx => ", labData);
 
   const dispatch = useDispatch();
   const [data, setData] = useState<LabFormData>(initialState);
@@ -54,6 +56,7 @@ const Lab = ({ index, letter }: { index: number, letter: string }) => {
           placeholder="teacher"
           className="outline-none my-4 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-lime-300 dark:focus:border-lime-300"
           name="teacher"
+          value={labData.teacher}
           onChange={handleChange}
         />
         <input
@@ -61,7 +64,7 @@ const Lab = ({ index, letter }: { index: number, letter: string }) => {
           placeholder="schedule"
           className="outline-none my-4 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-lime-300 dark:focus:border-lime-300"
           name="schedule"
-          // value={data.cui}
+          value={labData.schedule}
           onChange={handleChange}
         />
         <div className="flex flex-row">

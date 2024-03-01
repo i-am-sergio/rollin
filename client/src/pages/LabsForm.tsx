@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams, Link } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import Lab from "../components/Lab";
-import { createLab, getLabByCourse } from "../actions/LabActions";
-import { use } from "i18next";
+import { getLabByCourse } from "../actions/LabActions";
 
 interface LabFormData {
   course: string;
@@ -15,40 +14,46 @@ interface LabFormData {
 
 const LabsForm = () => {
   const { user } = useSelector((state: any) => state.authReducer.authData);
-  const [labs, setLabs] = useState([]);
+  // const [labs, setLabs] = useState(<[]);
+  const [labs, setLabs] = useState<LabFormData[]>([]);
   const { code, course } = useParams();
   const codeString = String(code);
   let { labData } = useSelector((state: any) => state.labReducer); 
 
-  
-  const initialState: LabFormData = {
-    course: "",
-    group: "A",
-    teacher: "",
-    schedule: "",
-  };
-
   const dispatch = useDispatch();
   const [letter, setLetter] = useState("A");
   const [numClicks, setNumClicks] = useState(0);
-  const [data, setData] = useState<LabFormData>(initialState)
-  const [changed, setChanged] = useState(false)
   
   useEffect(() => {
     // Llama a la acción 'getLabByCourse' y despacha la acción para obtener los laboratorios por curso
     dispatch<any>(getLabByCourse(codeString));
-  }, [dispatch, course]);
-
-
-  const handleClickAddCourse = () => {
-    // agregar un nuevo lab al array de labs
-    if (letter.charCodeAt(0) <= 90) {
-      setLetter(String.fromCharCode(letter.charCodeAt(0) + 1));
-      setNumClicks(prev => prev + 1);
+  }, [dispatch, codeString]);
+  
+    // Actualiza el estado 'labs' cuando 'labData' cambie
+  useEffect(() => {
+    if (labData) {
+      setLabs(labData);
     }
+  }, [labData]);
+  
+
+  const handleClickAddLab = () => {
+    // Incrementa la letra para el siguiente grupo
+    const nextLetter = String.fromCharCode(letter.charCodeAt(0) + 1);
+    
+    // Crea un nuevo laboratorio con los datos iniciales
+    const newLab: LabFormData = {
+      course: codeString,
+      group: nextLetter,
+      teacher: "",
+      schedule: "",
+    };
+    
+    // Agrega el nuevo laboratorio al estado 'labs'
+    setLabs(prevLabs => [...prevLabs, newLab]);
   }
 
-  const handleClickDeleteCourse = () => {
+  const handleClickDeleteLab = () => {
     if (numClicks > 0) {
       setNumClicks((prev) => prev - 1);
       setLetter((prevLetter) =>
@@ -57,22 +62,6 @@ const LabsForm = () => {
     }
   }
 
-  const handleClickDelete = (e: any) => {
-    e.preventDefault()
-    alert("Delete")
-  }
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setData({ ...data, [e.target.name]: e.target.value })
-  }
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    console.log("***data: ",data)
-    // dispatch<any>(createLab(data))
-  }
-
-  console.log("LAB DATA => ", labData)
   return (
     <div>
       <NavBar user={user} />
@@ -97,8 +86,8 @@ const LabsForm = () => {
                 </div>
                 { 
                 // muestra los labs existentes
-                  (labData.length > 0) &&
-                  labData.map((lab: any, index: number) => (
+                  (labs.length > 0) &&
+                  labs.map((lab: any, index: number) => (
                     <Lab 
                       key={index} 
                       index={index} 
@@ -112,67 +101,24 @@ const LabsForm = () => {
                   (labs.length === 0) &&
                   <h2>No hay</h2>
                 }
-                {/* {[...Array(numClicks)].map((_, index) => (
-                  <div key={index}>
-                    <form className="px-2 sm:px-6 text-center py-2 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white"
-                      onSubmit={handleSubmit}
-                    >
-                      <input
-                        type="text"
-                        className="outline-none my-4 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-lime-300 dark:focus:border-lime-300"
-                        name="group"
-                        value={String.fromCharCode(65 + index)}
-                        onChange={handleChange}
-                      />
-                      <input
-                        type="text"
-                        placeholder="teacher"
-                        className="outline-none my-4 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-lime-300 dark:focus:border-lime-300"
-                        name="teacher"
-                        onChange={handleChange}
-                      />
-                      <input
-                        type="text"
-                        placeholder="schedule"
-                        className="outline-none my-4 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-lime-300 dark:focus:border-lime-300"
-                        name="schedule"
-                        onChange={handleChange}
-                      />
-                      <div className="flex flex-row">
-                        <button
-                          className="w-full text-gray-600 bg-lime-300 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-400 dark:hover:bg-red-500"
-                          disabled={changed}
-                          onClick={handleClickDelete}
-                        >
-                          Delete
-                        </button>
-                        <button
-                          className="w-full text-gray-600 bg-lime-300 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-sky-200 dark:hover:bg-sky-300"
-                          disabled={changed}
-                        >
-                          Save
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-                ))} */}
+               
                 <div className="px-2 sm:px-6 flex justify-between">
                 {91 > 65 + numClicks && (
                   <button
                     type="button"
                     className="w-full text-gray-600 bg-lime-300 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-lime-300 dark:hover:bg-lime-400 dark:focus:ring-primary-800 mr-2"
-                    onClick={handleClickAddCourse}
+                    onClick={handleClickAddLab}
                   >
-                    Add Course
+                    Add Lab
                   </button>
                   )}
                   {numClicks > 0 && (
                     <button
                       type="button"
                       className="w-full text-gray-600 bg-red-300 hover:bg-red-500 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-300 dark:hover:bg-red-400 dark:focus:ring-red-800 ml-2"
-                      onClick={handleClickDeleteCourse}
+                      onClick={handleClickDeleteLab}
                     >
-                      Delete Last Course
+                      Delete Last Lab
                     </button>
                   )}
                 </div>

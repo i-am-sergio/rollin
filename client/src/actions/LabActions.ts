@@ -13,11 +13,14 @@ export const getAllLabs = () => async (dispatch: any) => {
 
 export const createLab = (newLab: any) => async (dispatch: any) => {
     dispatch({ type: "CREATING_START" });
+    console.log("DATA QUE SE ENVIA => ", newLab);
     try {
         const { data } = await LabApi.createLab(newLab);
+        console.log("***CORRECT REQUEST");
         dispatch({ type: "CREATING_SUCCESS", data: data });
     } catch (error) {
         console.log(error);
+        console.log("***FAIL REQUEST");
         dispatch({ type: "CREATING_FAIL" });
     }
 }

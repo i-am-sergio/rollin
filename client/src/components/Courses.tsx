@@ -15,8 +15,8 @@ const Courses = ({ courses }: any) => {
               <h2 className="text-white dark:text-white text-lg font-medium">{course.code}</h2>
             </div>
             <div className="flex flex-col justify-between flex-grow">
-              <p className="leading-relaxed text-base text-white dark:text-gray-300">
-                {course.name.substring(0, 10)}
+              <p className="max-w-1 min-h-32 text-white dark:text-gray-300">
+                {course.name}
               </p>
 
               <Link to={`/addlab/${course.code}/${course.name}`} className="mt-3 text-black dark:text-white hover:text-blue-600 inline-flex items-center">

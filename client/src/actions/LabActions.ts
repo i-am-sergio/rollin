@@ -13,7 +13,6 @@ export const getLabByCourse = (course: any) => async (dispatch: any) => {
 
 export const createLab = (newLab: any) => async (dispatch: any) => {
     dispatch({ type: "CREATING_START" });
-    console.log("DATA QUE SE ENVIA => ", newLab);
     try {
         const { data } = await LabApi.createLab(newLab);
         dispatch({ type: "CREATING_SUCCESS", data: data });

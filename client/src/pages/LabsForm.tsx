@@ -62,11 +62,13 @@ const LabsForm = () => {
   return (
     <div>
       <NavBar user={user} />
-      <section className="bg-gray-50 dark:bg-gray-900">
-        <Link to="/home" className="bg-slate-300 ml-4 px-6 rounded-sm mt-10">
-          Volver
-        </Link>
-        <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
+      <section className="bg-white my-6">
+        <div className="flex flex-row-reverse">
+          <Link to="/home" className="bg-slate-300 text-xs rounded-full w-14 h-14 flex justify-center items-center mx-8 ml-2 duration-500 ease-in-out hover:translate-y-2">
+            Volver
+          </Link>
+        </div>
+        <div className="bg-white flex flex-col items-center justify-center px-6 py-8 mx-auto lg:py-0">
           <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
               <h3 className="text-center py-2 text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
@@ -94,12 +96,12 @@ const LabsForm = () => {
                       />
                     ))
                 }
-                {labs.length === 0 && <h2>No hay</h2>}
+                {labs.length === 0 && <h2>Aun No hay Labs</h2>}
                 <div className="px-2 sm:px-6 flex justify-between">
                   {labs.length < 26 && (
                     <button
                       type="button"
-                      className="w-full text-gray-600 bg-lime-300 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-lime-300 dark:hover:bg-lime-400 dark:focus:ring-primary-800 mr-2"
+                      className="duration-500 ease-in-out hover:translate-y-1 w-full text-gray-600 bg-lime-400 focus: font-medium rounded-lg text-sm px-5 py-2.5 text-center hover:bg-lime-500 hover:text-black"
                       onClick={handleClickAddLab}
                     >
                       Add Lab

@@ -1,6 +1,6 @@
-import React, { useState } from "react"
-import { useDispatch } from "react-redux"
-import { createLab } from "../actions/LabActions"
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { createLab } from "../actions/LabActions";
 
 interface LabFormData {
   course: string;
@@ -9,8 +9,17 @@ interface LabFormData {
   schedule: string;
 }
 
-const Lab = ({ index, letter, labData }: { index: number, letter: string, labData : any }) => {
-  
+const Lab = ({
+  index,
+  letter,
+  labData,
+  mode,
+}: {
+  index: number;
+  letter: string;
+  labData: any;
+  mode: string;
+}) => {
   const initialState: LabFormData = {
     course: "",
     group: letter,
@@ -23,21 +32,23 @@ const Lab = ({ index, letter, labData }: { index: number, letter: string, labDat
   const dispatch = useDispatch();
   const [data, setData] = useState<LabFormData>(initialState);
   const [changed, setChanged] = useState(false);
-  
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setData({ ...data, [e.target.name]: e.target.value });
-  }
+  };
 
   const handleClickDelete = (e: any) => {
     e.preventDefault();
     alert("Delete");
-  }
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("***data: ", data);
+    // console.log("***data: ", data);
     // dispatch<any>(createLab(data))
-  }
+  };
+  const teacherValue = mode === "edit" ? "" : labData.teacher || "";
+  const scheduleValue = mode === "edit" ? "" : labData.schedule || "";
 
   return (
     <div>
@@ -57,7 +68,7 @@ const Lab = ({ index, letter, labData }: { index: number, letter: string, labDat
           placeholder="teacher"
           className="outline-none my-4 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-lime-300 dark:focus:border-lime-300"
           name="teacher"
-          value={labData.teacher}
+          value={teacherValue}
           onChange={handleChange}
         />
         <input
@@ -65,24 +76,36 @@ const Lab = ({ index, letter, labData }: { index: number, letter: string, labDat
           placeholder="schedule"
           className="outline-none my-4 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-lime-300 dark:focus:border-lime-300"
           name="schedule"
-          value={labData.schedule}
+          value={scheduleValue}
           onChange={handleChange}
         />
-        <div className="flex flex-row">
-          <button
-            className="w-full text-gray-600 bg-lime-300 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-400 dark:hover:bg-red-500"
-            disabled={changed}
-            onClick={handleClickDelete}
-          >
-            Delete
-          </button>
-          <button
-            className="w-full text-gray-600 bg-lime-300 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-sky-200 dark:hover:bg-sky-300"
-            disabled={changed}
-          >
-            Save
-          </button>
-        </div>
+        {mode === "view" && (
+          <div className="flex flex-row">
+            <button
+              className="w-full text-gray-600 bg-lime-300 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-400 dark:hover:bg-red-500"
+              disabled={changed}
+              onClick={handleClickDelete}
+            >
+              Delete
+            </button>
+            <button
+              className="w-full text-gray-600 bg-lime-300 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-sky-200 dark:hover:bg-sky-300"
+              disabled={changed}
+            >
+              Save
+            </button>
+          </div>
+        )}
+        {mode === "edit" && (
+          <div className="flex flex-row">
+            <button
+              className="w-full text-gray-600 bg-lime-300 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-sky-200 dark:hover:bg-sky-300"
+              disabled={changed}
+            >
+              Save
+            </button>
+          </div>
+        )}
       </form>
     </div>
   );

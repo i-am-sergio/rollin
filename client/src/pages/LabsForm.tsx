@@ -96,7 +96,7 @@ const LabsForm = () => {
                       />
                     ))
                 }
-                {labs.length === 0 && <h2>Aun No hay Labs</h2>}
+                {labs.length === 0 && <h2 className="text-white px-6 text-center">Aun No hay Laboratorios</h2>}
                 <div className="px-2 sm:px-6 flex justify-between">
                   {labs.length < 26 && (
                     <button

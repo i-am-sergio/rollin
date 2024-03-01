@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { createLab } from "../actions/LabActions";
+import { Navigate, useNavigate } from "react-router-dom";
 
 interface LabFormData {
   course: string;
@@ -30,6 +31,7 @@ const Lab = ({ index, letter, labData, mode }: {
   }, []);
 
   const [changed, setChanged] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setData({ ...data, [e.target.name]: e.target.value });
@@ -41,10 +43,12 @@ const Lab = ({ index, letter, labData, mode }: {
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
     console.log("***data: ", data);
+    e.preventDefault()
     dispatch<any>(createLab(data))
-    setChanged(false);
+    e.preventDefault()
+    alert("Changes Saved!");
+    // que no se vaya a la página de inicio
   };
   const teacherValue = mode === "edit" ? "" : labData.teacher || "";
   const scheduleValue = mode === "edit" ? "" : labData.schedule || "";

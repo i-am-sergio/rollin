@@ -40,7 +40,7 @@ const NavBar = ({ user }: { user: any }) => {
             </li>
             <li className="mx-4">
               <button
-                className="bg-lime-400 px-4 py-2 rounded-md hover:bg-lime-500 text-slate-600 hover:text-slate-100"
+                className="bg-lime-400 px-4 py-2 rounded-md hover:bg-lime-500 text-slate-600 hover:text-slate-100 duration-300 ease-in-out hover:translate-y-1duration-300 hover:translate-y-1"
                 onClick={handleLogOut}
               > {t("NavBar.logout")} </button>
             </li>

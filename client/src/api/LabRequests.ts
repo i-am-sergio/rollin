@@ -1,7 +1,9 @@
-import axios from "axios";
+import axios from "axios"
 
-const API = axios.create({ baseURL: "https://p9xvtnz0-5000.brs.devtunnels.ms" });
+const URL = "https://p9xvtnz0-5000.brs.devtunnels.ms" || "http://localhost:5000"
 
-export const getLabs = () => API.get("/labs");
-export const createLab = (newLab: any) => API.post("/labs", newLab);
-export const deleteLab = (id: string) => API.delete(`/labs/${id}`);
+const API = axios.create({ baseURL: URL })
+
+export const getLabs = () => API.get("/lab")
+export const createLab = (newLab: any) => API.post("/lab", newLab)
+export const deleteLab = (id: string) => API.delete(`/labs/${id}`)

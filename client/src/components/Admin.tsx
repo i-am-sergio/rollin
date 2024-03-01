@@ -46,7 +46,7 @@ const Admin: React.FC = () => {
       </div>
 
       <select name="cicle" value={selectedCicle} onChange={handleCicleChange}>
-        <option selected value="A">Semestre A</option>
+        <option value="A">Semestre A</option>
         <option value="B">Semestre B</option>
       </select>
       <div>

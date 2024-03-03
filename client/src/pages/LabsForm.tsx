@@ -99,7 +99,7 @@ const LabsForm = () => {
                   <Lab
                     key={`existing-${index}`}
                     index={index}
-                    letter={String.fromCharCode(65 + index)}
+                    letter={lab.group}
                     labData={lab}
                     mode="view"
                     onLabSaved={handleLabSaved}

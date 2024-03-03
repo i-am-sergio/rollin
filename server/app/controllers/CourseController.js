@@ -1,6 +1,8 @@
 import {
   getAllCourses,
   getAllCoursesWithLabs,
+  addLabToCourse,
+  deleteLabFromCourse,
 } from "../services/CourseService.js";
 import CourseModel from "../models/CourseModel.js";
 
@@ -37,6 +39,30 @@ export const courseFindAllWithLabs = async (req, res) => {
   try {
     // get all courses with labs with course service
     const data = await getAllCoursesWithLabs();
+    res.send(data);
+  } catch (error) {
+    res.status(500).json("Error interno del servidor");
+  }
+};
+
+export const courseAddLab = async (req, res) => {
+  try {
+    const { course, lab } = req.body;
+    console.log(course, lab);
+    const data = await addLabToCourse(course, lab);
+    console.log(data);
+    res.send(data);
+  } catch (error) {
+    res.status(500).json("Error interno del servidor");
+  }
+};
+
+export const courseDeleteLab = async (req, res) => {
+  try {
+    const { course, lab } = req.body;
+    console.log(course, lab);
+    const data = await deleteLabFromCourse(course, lab);
+    console.log(data);
     res.send(data);
   } catch (error) {
     res.status(500).json("Error interno del servidor");

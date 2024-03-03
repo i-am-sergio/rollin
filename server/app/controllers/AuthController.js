@@ -1,4 +1,5 @@
 import UserModel from "../models/UserModel.js";
+import CourseModel from "../models/CourseModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import {
@@ -72,22 +73,23 @@ export const registerUser = async (req, res) => {
 export const loginUser = async (req, res) => {
   const { cui, password } = req.body;
   try {
-    console.log("CUI recibido:", cui); // Registro de consola para verificar el valor de CUI recibido
     const user = await UserModel.findOne({ cui: cui }); // Buscar por cui
-    console.log("Usuario encontrado:", user); // Registro de consola para verificar si se encontró un usuario
     if (user) {
-      console.log("Contraseña ingresada:", password); // Registro de consola para verificar la contraseña ingresada
-      console.log("Contraseña almacenada:", user.password); // Registro de consola para verificar la contraseña almacenada en la base de datos
       const validity = await bcrypt.compare(password, user.password);
       if (!validity) {
         res.status(400).json("Contraseña incorrecta");
       } else {
+        const userCourseNames = user.courses;
+        // Filtrar los cursos de la base de datos cuyos nombres estén en la lista de nombres de cursos del usuario
+        const filteredCourses = await CourseModel.find({ name: { $in: userCourseNames }, labs: { $ne: [] } });
+        console.log("FILTER:", filteredCourses); 
+
         const token = jwt.sign(
           { cui: user.cui, id: user._id },
           process.env.JWTKEY,
           { expiresIn: "1h" }
         );
-        res.status(200).json({ user, token });
+        res.status(200).json({ user, filteredCourses, token });
       }
     } else {
       res.status(404).json("Usuario no encontrado");

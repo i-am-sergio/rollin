@@ -4,6 +4,7 @@ import { useParams, Link } from "react-router-dom";
 import NavBar from "../components/NavBar";
 import Lab from "../components/Lab";
 import { getLabByCourse } from "../actions/LabActions";
+import { updateCourse } from "../actions/CourseActions";
 
 interface LabFormData {
   course: string;
@@ -85,9 +86,12 @@ const LabsForm = () => {
 
   const handleClickTimeSave = () => {
     const newDateTime = `${date} ${time}`;
-    console.log("Time Saved: ", newDateTime);
+    //console.log("Time Saved: ", { startime: newDateTime });
+    dispatch<any>(updateCourse(code, { startime: newDateTime }));
   };
+
   const isChanged = date_time !== `${date} ${time}`;
+
   return (
     <div>
       <NavBar user={user} />

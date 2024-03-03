@@ -10,13 +10,17 @@ interface LabFormData {
   schedule: string;
 }
 
-const Lab = ({ index, letter, labData, mode }: {
+const Lab = ({
+  index,
+  letter,
+  labData,
+  mode,
+}: {
   index: number;
   letter: string;
   labData: any;
   mode: string;
 }) => {
-
   const initialState: LabFormData = {
     course: labData.course,
     group: letter,
@@ -25,10 +29,13 @@ const Lab = ({ index, letter, labData, mode }: {
   };
 
   const dispatch = useDispatch();
-  const [data, setData] = useState(labData);
+  const [data, setData] = useState(initialState);
   useEffect(() => {
-    setData(initialState);
-  }, []);
+    setData((prevData) => ({
+      ...prevData,
+      ...labData,
+    }));
+  }, [labData]);
 
   const [changed, setChanged] = useState(false);
   const navigate = useNavigate();
@@ -43,10 +50,9 @@ const Lab = ({ index, letter, labData, mode }: {
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     console.log("***data: ", data);
-    e.preventDefault()
-    dispatch<any>(createLab(data))
-    e.preventDefault()
+    dispatch<any>(createLab(data));
     alert("Changes Saved!");
     // que no se vaya a la página de inicio
   };

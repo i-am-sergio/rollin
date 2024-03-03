@@ -21,7 +21,7 @@ const Courses = ({ courses }: any) => {
               </p>
 
               <Link
-                to={`/addlab/${course.code}/${course.name}/${course.date}`}
+                to={`/addlab/${course.code}/${course.name}/${course.startime}`}
                 className="mt-3 text-black border-2 border-transparent bg-lime-400 rounded-md hover:text-lime-300 inline-flex hover:bg-transparent hover:border-lime-400 text-center duration-300 ease-in-out hover:translate-y-1"
               >
                 {t("Courses.add")}

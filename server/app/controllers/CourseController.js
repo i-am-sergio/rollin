@@ -3,6 +3,7 @@ import {
   getAllCoursesWithLabs,
   addLabToCourse,
   deleteLabFromCourse,
+  updateCourse,
 } from "../services/CourseService.js";
 import CourseModel from "../models/CourseModel.js";
 
@@ -74,12 +75,11 @@ export const courseUpdate = async (req, res) => {
   try {
     const { code } = req.params;
     const { startime } = req.body;
-    const course = await CourseModel.findOneAndUpdate({ code }, { startime});
-    if (!course) {
-      res.status(404).json({ message: `Course with code ${code} not found` });
-      return;
-    }
+    console.log(code, startime);
+    const data = await updateCourse(code, startime);
+    console.log(data);
+    res.send(data);
   } catch (error) {
     res.status(500).json("Error interno del servidor");
   }
-}
+};

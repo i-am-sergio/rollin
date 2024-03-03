@@ -44,3 +44,16 @@ export const deleteLabFromCourse = async (course, lab) => {
     throw new Error("Error interno del servidor");
   }
 };
+
+export const updateCourse = async (code, startime) => {
+  try {
+    const courseFound = await CourseModel.findOne({ code: code });
+    if (!courseFound) {
+      throw new Error("El curso no existe");
+    }
+    courseFound.startime = startime;
+    return await courseFound.save();
+  } catch (error) {
+    throw new Error("Error interno del servidor");
+  }
+};

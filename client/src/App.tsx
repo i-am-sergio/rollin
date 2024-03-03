@@ -34,7 +34,7 @@ function App(): JSX.Element {
           element={user ? <Navigate to="../home" /> : <Auth />}
         />
         <Route
-          path="/addlab/:code/:course"
+          path="/addlab/:code/:course/:date_time"
           element={user ? <LabsForm /> : <Auth />}
         />
         <Route

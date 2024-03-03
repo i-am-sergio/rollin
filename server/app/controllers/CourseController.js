@@ -68,3 +68,18 @@ export const courseDeleteLab = async (req, res) => {
     res.status(500).json("Error interno del servidor");
   }
 };
+
+// course update function save new startime
+export const courseUpdate = async (req, res) => {
+  try {
+    const { code } = req.params;
+    const { startime } = req.body;
+    const course = await CourseModel.findOneAndUpdate({ code }, { startime});
+    if (!course) {
+      res.status(404).json({ message: `Course with code ${code} not found` });
+      return;
+    }
+  } catch (error) {
+    res.status(500).json("Error interno del servidor");
+  }
+}

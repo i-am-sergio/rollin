@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { createLab, deleteLab } from "../actions/LabActions";
+import { addLabToCourse, deleteLabFromCourse } from "../actions/CourseActions";
 import { Navigate, useNavigate } from "react-router-dom";
 
 interface LabFormData {
@@ -57,6 +58,10 @@ const Lab = ({
     ) {
       // Código si el usuario elige "Sí"
       dispatch<any>(deleteLab(labData.course, letter));
+      dispatch<any>(
+        deleteLabFromCourse({ course: labData.course, lab: letter })
+      );
+
       alert(`Lab ${labData.course} grupo ${letter} eliminado!`);
       navigate("/home");
     }
@@ -66,13 +71,14 @@ const Lab = ({
     e.preventDefault();
     console.log("***data: ", data);
     dispatch<any>(createLab(data));
+    dispatch<any>(addLabToCourse({ course: data.course, lab: data.group }));
     alert("Changes Saved!");
     onLabSaved(index, data);
     // que no se vaya a la página de inicio
   };
   const teacherValue = mode === "edit" ? "" : labData.teacher || "";
   const scheduleValue = mode === "edit" ? "" : labData.schedule || "";
-
+  const letterValue = mode === "edit" ? "" : letter || "";
   return (
     <div>
       <form
@@ -83,7 +89,9 @@ const Lab = ({
           type="text"
           className="outline-none my-4 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-lime-300 dark:focus:border-lime-300"
           name="group"
-          value={String.fromCharCode(65 + index)}
+          value={
+            mode === "view" ? letterValue : String.fromCharCode(65 + index)
+          }
           onChange={handleChange}
         />
         <input

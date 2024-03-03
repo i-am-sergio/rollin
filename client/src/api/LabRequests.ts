@@ -6,4 +6,5 @@ const API = axios.create({ baseURL: URL });
 
 export const getLabByCourse = (course: string) => API.get(`/lab/${course}`);
 export const createLab = (newLab: any) => API.post("/lab", newLab);
-export const deleteLab = (id: string) => API.delete(`/labs/${id}`);
+export const deleteLab = (course: string, group: string) =>
+  API.delete(`/lab/${group}/${course}`);

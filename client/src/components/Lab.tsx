@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { createLab } from "../actions/LabActions";
+import { createLab, deleteLab } from "../actions/LabActions";
 import { Navigate, useNavigate } from "react-router-dom";
 
 interface LabFormData {
@@ -15,11 +15,13 @@ const Lab = ({
   letter,
   labData,
   mode,
+  onLabSaved,
 }: {
   index: number;
   letter: string;
   labData: any;
   mode: string;
+  onLabSaved: (index: number, newLab: LabFormData) => void;
 }) => {
   const initialState: LabFormData = {
     course: labData.course,
@@ -30,6 +32,10 @@ const Lab = ({
 
   const dispatch = useDispatch();
   const [data, setData] = useState(initialState);
+  const [localMode, setLocalMode] = useState(mode);
+  const [changed, setChanged] = useState(false);
+  const navigate = useNavigate();
+
   useEffect(() => {
     setData((prevData) => ({
       ...prevData,
@@ -37,16 +43,23 @@ const Lab = ({
     }));
   }, [labData]);
 
-  const [changed, setChanged] = useState(false);
-  const navigate = useNavigate();
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
   const handleClickDelete = (e: any) => {
     e.preventDefault();
-    alert("Delete");
+    // alert(Lab ${labData.course} grupo ${letter} deleted!);
+    if (
+      confirm(
+        `¿Estás seguro de que deseas eliminar el Lab ${labData.course} grupo ${letter}?`
+      )
+    ) {
+      // Código si el usuario elige "Sí"
+      dispatch<any>(deleteLab(labData.course, letter));
+      alert(`Lab ${labData.course} grupo ${letter} eliminado!`);
+      navigate("/home");
+    }
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -54,6 +67,7 @@ const Lab = ({
     console.log("***data: ", data);
     dispatch<any>(createLab(data));
     alert("Changes Saved!");
+    onLabSaved(index, data);
     // que no se vaya a la página de inicio
   };
   const teacherValue = mode === "edit" ? "" : labData.teacher || "";
@@ -88,7 +102,7 @@ const Lab = ({
           value={mode === "view" ? scheduleValue : data.schedule}
           onChange={handleChange}
         />
-        {mode === "view" && (
+        {localMode === "view" && (
           <div className="flex flex-row">
             <button
               className="w-full text-gray-600 bg-lime-300 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-400 dark:hover:bg-red-500"
@@ -105,7 +119,7 @@ const Lab = ({
             </button>
           </div>
         )}
-        {mode === "edit" && (
+        {localMode === "edit" && (
           <div className="flex flex-row">
             <button
               className="w-full text-gray-600 bg-lime-300 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-sky-200 dark:hover:bg-sky-300"

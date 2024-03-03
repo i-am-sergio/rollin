@@ -35,6 +35,16 @@ const LabsForm = () => {
     }
   }, [labData]);
 
+  const handleLabSaved = (index: number, newLab: LabFormData) => {
+    setExistingLabs((prevLabs) => [...prevLabs, newLab]);
+    setNewLabs((prevLabs) => {
+      const newLabsFiltered = prevLabs.filter((lab, i) => {
+        return i !== index - existingLabs.length;
+      });
+      return newLabsFiltered;
+    });
+  };
+
   const handleClickAddLab = () => {
     const nextLetter =
       existingLabs.length + newLabs.length > 0
@@ -92,6 +102,7 @@ const LabsForm = () => {
                     letter={String.fromCharCode(65 + index)}
                     labData={lab}
                     mode="view"
+                    onLabSaved={handleLabSaved}
                   />
                 ))}
                 {existingLabs.length === 0 && (
@@ -108,6 +119,7 @@ const LabsForm = () => {
                     )}
                     labData={lab}
                     mode="edit"
+                    onLabSaved={handleLabSaved}
                   />
                 ))}
                 <div className="px-2 sm:px-6 flex justify-between">

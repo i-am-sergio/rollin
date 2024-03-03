@@ -5,6 +5,7 @@ const CourseSchema = mongoose.Schema({
   code: { type: String, required: true },
   labs: [{ type: String }],
   semestre: { type: Number},
+  startime: { type: String },
 });
 
 const CourseModel = mongoose.model("Course", CourseSchema);

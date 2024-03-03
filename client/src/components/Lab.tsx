@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { createLab } from "../actions/LabActions";
+import { Navigate, useNavigate } from "react-router-dom";
 
 interface LabFormData {
   course: string;
@@ -9,27 +10,28 @@ interface LabFormData {
   schedule: string;
 }
 
-const Lab = ({
-  index,
-  letter,
-  labData,
-  mode,
-}: {
+const Lab = ({ index, letter, labData, mode }: {
   index: number;
   letter: string;
   labData: any;
   mode: string;
 }) => {
+
   const initialState: LabFormData = {
-    course: "",
+    course: labData.course,
     group: letter,
     teacher: "",
     schedule: "",
   };
 
   const dispatch = useDispatch();
-  const [data, setData] = useState<LabFormData>(labData || initialState);
+  const [data, setData] = useState(labData);
+  useEffect(() => {
+    setData(initialState);
+  }, []);
+
   const [changed, setChanged] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setData({ ...data, [e.target.name]: e.target.value });
@@ -41,9 +43,12 @@ const Lab = ({
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // console.log("***data: ", data);
-    // dispatch<any>(createLab(data))
+    console.log("***data: ", data);
+    e.preventDefault()
+    dispatch<any>(createLab(data))
+    e.preventDefault()
+    alert("Changes Saved!");
+    // que no se vaya a la página de inicio
   };
   const teacherValue = mode === "edit" ? "" : labData.teacher || "";
   const scheduleValue = mode === "edit" ? "" : labData.schedule || "";
@@ -56,7 +61,7 @@ const Lab = ({
       >
         <input
           type="text"
-          className="outline-none my-4 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-lime-300 dark:focus:border-lime-300"
+          className="outline-none my-4 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-lime-300 dark:focus:border-lime-300"
           name="group"
           value={String.fromCharCode(65 + index)}
           onChange={handleChange}
@@ -64,17 +69,17 @@ const Lab = ({
         <input
           type="text"
           placeholder="teacher"
-          className="outline-none my-4 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-lime-300 dark:focus:border-lime-300"
+          className="outline-none my-4 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-lime-300 dark:focus:border-lime-300"
           name="teacher"
-          value={teacherValue}
+          value={mode === "view" ? teacherValue : data.teacher}
           onChange={handleChange}
         />
         <input
           type="text"
           placeholder="schedule"
-          className="outline-none my-4 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-lime-300 dark:focus:border-lime-300"
+          className="outline-none my-4 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-lime-300 dark:focus:border-lime-300"
           name="schedule"
-          value={scheduleValue}
+          value={mode === "view" ? scheduleValue : data.schedule}
           onChange={handleChange}
         />
         {mode === "view" && (

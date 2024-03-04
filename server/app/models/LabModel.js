@@ -5,6 +5,7 @@ const LabSchema = mongoose.Schema({
   course: { type: String, required: true },
   teacher: { type: String, required: true },
   schedule: { type: String, required: true },
+  quantity: { type: Number, required: true },
   students: [],
 });
 

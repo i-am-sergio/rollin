@@ -9,13 +9,13 @@ import CourseModel from "../models/CourseModel.js";
 
 export const courseCreate = async (req, res) => {
   try {
-    const { name, code } = req.body;
+    const { name, code, semestre } = req.body;
     if (!req.body) {
       console.log("Content can not be empty!");
       res.status(400).json({ message: "Content can not be empty!" });
       return;
     }
-    const newCourse = CourseModel({ name, code });
+    const newCourse = CourseModel({ name, code, semestre });
     await newCourse.save();
     return res.status(200).json(newCourse);
   } catch (error) {

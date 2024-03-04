@@ -11,6 +11,7 @@ interface LabFormData {
   group: string;
   teacher: string;
   schedule: string;
+  quantity: number;
   mode?: string;
 }
 
@@ -89,7 +90,6 @@ const LabsForm = () => {
     //console.log("Time Saved: ", { startime: newDateTime });
     dispatch<any>(updateCourse(code, { startime: newDateTime }));
   };
-
   const isChanged = date_time !== `${date} ${time}`;
 
   return (

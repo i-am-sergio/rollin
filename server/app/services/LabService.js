@@ -7,6 +7,7 @@ export const saveLab = async (lab) => {
       course: lab.course,
       teacher: lab.teacher,
       schedule: lab.schedule,
+      quantity: lab.quantity,
     });
     return await newLab.save();
   } catch (error) {

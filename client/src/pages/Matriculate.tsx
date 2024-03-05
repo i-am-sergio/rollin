@@ -1,23 +1,26 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
+import { getCourseByCode } from "../actions/MatriculateActions";
 import NavBar from "../components/NavBar"
-import { getStartimeByCourse } from "../actions/MatriculateActions";
+import NonMatriculate from "../components/NonMatriculate";
+import Enroll from "../components/Enroll";
 
 
 const Matriculate = () => {
   const dispatch = useDispatch();
   const { code } = useParams();
   const { user } = useSelector((state: any) => state.authReducer.authData);
-  
+
   // get matriculate startime with dispatch 1 time
   useEffect(() => {
     if (code) {
-      dispatch<any>(getStartimeByCourse(code));
+      dispatch<any>(getCourseByCode(code));
     }
   }, []);
-  
-  const { startime } = useSelector((state: any) => state.matriculateReducer.matriculateData);
+
+  const { labs, startime} = useSelector((state: any) => state.matriculateReducer.matriculateData);
+  console.log(labs)
 
   const getCurrentDateTime = () => {
     const date = new Date();
@@ -32,7 +35,7 @@ const Matriculate = () => {
 
   const currentDateTime = getCurrentDateTime();
   const matriculateStart = startime;
-  
+
   const isMatriculateOpen = () => {
     const currentDate = new Date(currentDateTime);
     const matriculateStartDate = new Date(matriculateStart);
@@ -42,8 +45,9 @@ const Matriculate = () => {
   return (
     <div>
       <NavBar user={user} />
-      { !isMatriculateOpen() && <h2>Aun No inician las matriculas</h2> }
-      { isMatriculateOpen() && <h2>Matriculas Abiertas</h2>}
+      {!isMatriculateOpen() && <NonMatriculate />}
+      {/* En lugar de pasarle solo las letras en labs, se deben pasar toda la info de cada lab haciendo otro dispatch */}
+      {isMatriculateOpen() && <Enroll labs={labs} />}
     </div>
   )
 }

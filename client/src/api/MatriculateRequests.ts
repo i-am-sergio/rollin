@@ -4,4 +4,4 @@ const URL = "http://localhost:5000";
 
 const API = axios.create({ baseURL: URL });
 
-export const getStartimeByCourse = (code: string) => API.get(`/matriculate/${code}`);
+export const getCourseByCode = (code: string) => API.get(`/matriculate/${code}`);

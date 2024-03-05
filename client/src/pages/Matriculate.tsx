@@ -1,11 +1,24 @@
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
 import NavBar from "../components/NavBar"
+import { getStartimeByCourse } from "../actions/MatriculateActions";
 
 
 const Matriculate = () => {
+  const dispatch = useDispatch();
+  const { code } = useParams();
   const { user } = useSelector((state: any) => state.authReducer.authData);
+  
+  // get matriculate startime with dispatch 1 time
+  useEffect(() => {
+    if (code) {
+      dispatch<any>(getStartimeByCourse(code));
+    }
+  }, []);
+  
+  const { startime } = useSelector((state: any) => state.matriculateReducer.matriculateData);
 
-  // get current datetime function
   const getCurrentDateTime = () => {
     const date = new Date();
     const year = date.getFullYear();
@@ -17,17 +30,14 @@ const Matriculate = () => {
     return `${year}-${month}-${day}T${hour}:${minute}:${second}`;
   };
 
-  const dateTime = getCurrentDateTime();
-  const matriculateStart = "2022-10-01T00:00:00";
-  const matriculateEnd = "2022-10-31T23:59:59";
-  console.log(dateTime);
-
+  const currentDateTime = getCurrentDateTime();
+  const matriculateStart = startime;
+  
   const isMatriculateOpen = () => {
-    if (dateTime >= matriculateStart && dateTime <= matriculateEnd) {
-      return true;
-    }
-    return false;
-  }
+    const currentDate = new Date(currentDateTime);
+    const matriculateStartDate = new Date(matriculateStart);
+    return currentDate >= matriculateStartDate;
+  };
 
   return (
     <div>

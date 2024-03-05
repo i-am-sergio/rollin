@@ -39,7 +39,7 @@ function App(): JSX.Element {
           element={user ? <LabsForm /> : <Auth />}
         />
         <Route
-          path="/matriculate"
+          path="/matriculate/:code"
           element={user ? <Matriculate /> : <Auth />}
         />
         <Route

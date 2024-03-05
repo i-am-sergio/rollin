@@ -9,7 +9,7 @@ function Labs({ user, courses }: { user: any, courses: any}) {
       
       { user.role === "user" && courses &&
         courses.map((course : any) => (
-          <Link key={course._id} to={`/matriculate`}
+          <Link key={course._id} to={`/matriculate/${course.code}`}
           className="flex flex-col p-6 space-y-6 transition-all duration-500 bg-white border border-indigo-100 rounded-lg shadow hover:shadow-xl lg:p-8 lg:flex-row lg:space-y-0 lg:space-x-6">
             <div
               className="flex items-center justify-center w-16 h-16 bg-green-100 border border-green-200 rounded-full shadow-inner lg:h-20 lg:w-20">

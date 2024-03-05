@@ -11,7 +11,7 @@ const Matriculate = () => {
   const dispatch = useDispatch();
   const { code } = useParams();
   const { user } = useSelector((state: any) => state.authReducer.authData);
-
+  console.log(user)
   // get matriculate startime with dispatch 1 time
   useEffect(() => {
     if (code) {
@@ -19,8 +19,9 @@ const Matriculate = () => {
     }
   }, []);
 
-  const { labs, startime} = useSelector((state: any) => state.matriculateReducer.matriculateData);
-  console.log(labs)
+  const { labs , startime} = useSelector((state: any) => state.matriculateReducer.matriculateData);
+  console.log("LABS DEL CURSO => ", labs)
+  console.log("startime => ", startime)
 
   const getCurrentDateTime = () => {
     const date = new Date();
@@ -47,7 +48,7 @@ const Matriculate = () => {
       <NavBar user={user} />
       {!isMatriculateOpen() && <NonMatriculate />}
       {/* En lugar de pasarle solo las letras en labs, se deben pasar toda la info de cada lab haciendo otro dispatch */}
-      {isMatriculateOpen() && <Enroll labs={labs} />}
+      {isMatriculateOpen() && <Enroll labs={labs} code={code} />}
     </div>
   )
 }

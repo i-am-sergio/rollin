@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom"
+
 function Labs({ user, courses }: { user: any, courses: any}) {
   
   console.log(courses)
@@ -5,9 +7,9 @@ function Labs({ user, courses }: { user: any, courses: any}) {
   return (
     <div className="grid gap-8 md:grid-cols-3 lg:gap-12 p-4 md:p-10 mt-2">
       
-      { user.role === "user" &&
+      { user.role === "user" && courses &&
         courses.map((course : any) => (
-          <a key={course._id} href="/home"
+          <Link key={course._id} to={`/matriculate/${course.code}`}
           className="flex flex-col p-6 space-y-6 transition-all duration-500 bg-white border border-indigo-100 rounded-lg shadow hover:shadow-xl lg:p-8 lg:flex-row lg:space-y-0 lg:space-x-6">
             <div
               className="flex items-center justify-center w-16 h-16 bg-green-100 border border-green-200 rounded-full shadow-inner lg:h-20 lg:w-20">
@@ -26,7 +28,7 @@ function Labs({ user, courses }: { user: any, courses: any}) {
                 <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
               </span>
             </div>
-          </a>
+          </Link>
         ))
       }
 

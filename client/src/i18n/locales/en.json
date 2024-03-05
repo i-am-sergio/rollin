@@ -28,5 +28,9 @@
     "notify": "View notifications",
     "menu": "Open user menu",
     "logout": "Log Out"
+  },
+  "Courses": {
+    "add":"Add Lab",
+    "download": "Download Enroll"
   }
 }

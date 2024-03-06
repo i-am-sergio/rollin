@@ -24,7 +24,6 @@ export const getLabsByCourse = (code: string) => async (dispatch: any) => {
 
 }
 
-// To matriculate a user to a lab (to do) 
 export const matriculateInLab = (cui: string, course: string, group: string) => async (dispatch: any) => {
   dispatch({ type: 'MATRICULATE_START' });
   try {

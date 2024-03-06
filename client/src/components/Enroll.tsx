@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { getLabsByCourse } from "../actions/MatriculateActions";
+import { getLabsByCourse, matriculateInLab } from "../actions/MatriculateActions";
 import { useDispatch, useSelector } from "react-redux";
 
-const Enroll = ({ code }: { code: any }) => {
+const Enroll = ({ cui, code }: { cui: any, code: any }) => {
 
   const dispatch = useDispatch();
 
@@ -15,7 +15,12 @@ const Enroll = ({ code }: { code: any }) => {
   const labs = useSelector((state: any) => state.matriculateReducer.labData)
 
   const handleClick = (groupValue: string) => {
-   console.log("Selected group:", groupValue);
+    console.log("groupValue => ", groupValue);
+    console.log("cui => ", cui);
+    // dispatch matriculateInLab
+    if(cui && code && groupValue){
+      dispatch<any>(matriculateInLab(cui, code, groupValue));
+    }
   }
 
   return (

@@ -1,6 +1,7 @@
 // Matriculate Reducer
 export interface MatriculateState {
   matriculateData: any;
+  labData: any;
   loading: boolean;
   error: boolean;
   updateLoading: boolean;
@@ -14,6 +15,7 @@ export interface Action {
 const MatriculateReducer = (
   state: MatriculateState = {
     matriculateData: null,
+    labData: null,
     loading: false,
     error: false,
     updateLoading: false,
@@ -48,6 +50,20 @@ const MatriculateReducer = (
       return { ...state, matriculateData: action.data, updateLoading: false, error: false };
     case "DELETING_FAIL":
       return { ...state, updateLoading: false, error: true };
+
+    case "GET_LABS_START":
+      return { ...state, loading: true, error: false };
+    case "GET_LABS_SUCCESS":
+      return { ...state, labData: action.data, loading: false, error: false };
+    case "GET_LABS_FAIL":
+      return { ...state, loading: false, error: true };
+    
+    case "MATRICULATE_START":
+      return { ...state, loading: true, error: false };
+    case "MATRICULATE_SUCCESS":
+      return { ...state, loading: false, error: false };
+    case "MATRICULATE_FAIL":
+      return { ...state, loading: false, error: true };
 
     default:
       return state;

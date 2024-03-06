@@ -24,13 +24,13 @@ export const createLab = (newLab: any) => async (dispatch: any) => {
 
 export const updateLab =
   (course: any, group: any, updatedLab: any) => async (dispatch: any) => {
-    dispatch({ type: "UPDATING_START" });
+    dispatch({ type: "UPDATELAB_START" });
     try {
       const { data } = await LabApi.updateLab(course, group, updatedLab);
-      dispatch({ type: "UPDATING_SUCCESS", data: data });
+      dispatch({ type: "UPDATELAB_SUCCESS", data: data });
     } catch (error) {
-      console.log(error);
-      dispatch({ type: "UPDATING_FAIL" });
+      console.error(error);
+      dispatch({ type: "UPDATELAB_FAIL" });
     }
   };
 

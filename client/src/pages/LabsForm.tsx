@@ -62,6 +62,12 @@ const LabsForm = () => {
     });
   };
 
+  const handleLabUpdated = (index: number, updatedLab: LabFormData) => {
+    setExistingLabs((prevLabs) =>
+      prevLabs.map((lab, i) => (i === index ? updatedLab : lab))
+    );
+  };
+
   const handleClickAddLab = () => {
     const nextLetter =
       existingLabs.length + newLabs.length > 0
@@ -156,7 +162,7 @@ const LabsForm = () => {
                     letter={lab.group}
                     labData={lab}
                     mode="view"
-                    onLabSaved={handleLabSaved}
+                    onLabSaved={handleLabUpdated}
                   />
                 ))}
                 {existingLabs.length === 0 && (

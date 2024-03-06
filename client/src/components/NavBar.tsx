@@ -1,36 +1,35 @@
 import { useTranslation } from "react-i18next";
 import { useDispatch } from "react-redux";
 import { logout } from "../actions/AuthActions";
-import "./navbar.css"
+import "./navbar.css";
 import { useState } from "react";
-import img from "../img/logomasunsa.png"
+import img from "../img/logomasunsa.png";
 
 const NavBar = ({ user }: { user: any }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const [showNavbar, setShowNavbar] = useState(false)
+  const [showNavbar, setShowNavbar] = useState(false);
 
   const handleLogOut = () => {
     dispatch<any>(logout());
   };
 
-
   const handleShowNavbar = () => {
-    setShowNavbar(!showNavbar)
-  }
+    setShowNavbar(!showNavbar);
+  };
 
   return (
     <nav className="navbar">
       <div className="container">
         <div className="logo">
-          <div className="px-4 py-2 rounded-md hover:cursor-pointer" >
+          <div className="px-4 py-2 rounded-md hover:cursor-pointer">
             <img src={img} alt="logo" className="logo-unsa" />
           </div>
         </div>
         <button className="menu-icon" onClick={handleShowNavbar}>
           <span className="text-white">==</span>
         </button>
-        <div className={`nav-elements  ${showNavbar && 'active'}`}>
+        <div className={`nav-elements  ${showNavbar && "active"}`}>
           <ul className="flex justify-center items-center list-none p-0">
             <li className="mx-4">
               <span>{user.cui}</span>
@@ -42,13 +41,15 @@ const NavBar = ({ user }: { user: any }) => {
               <button
                 className="bg-lime-400 px-4 py-2 rounded-md hover:bg-lime-500 text-slate-600 hover:text-slate-100 duration-300 ease-in-out hover:translate-y-1duration-300 hover:translate-y-1"
                 onClick={handleLogOut}
-              > {t("NavBar.logout")} </button>
+              >
+                {" "}
+                {t("NavBar.logout")}{" "}
+              </button>
             </li>
           </ul>
         </div>
       </div>
     </nav>
-
 
     // <nav className="bg-gray-800">
     //   <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">

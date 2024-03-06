@@ -56,7 +56,7 @@ const Matriculate = () => {
       <NavBar user={user} />
       {!isMatriculateOpen() && <NonMatriculate />}
       {/* En lugar de pasarle solo las letras en labs, se deben pasar toda la info de cada lab haciendo otro dispatch */}
-      {isMatriculateOpen() && <Enroll labs={labs} code={code} />}
+      {isMatriculateOpen() && <Enroll code={code} />}
     </div>
   );
 };

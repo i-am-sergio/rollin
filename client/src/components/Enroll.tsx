@@ -1,8 +1,22 @@
+import { useEffect } from "react";
+import { getLabsByCourse } from "../actions/MatriculateActions";
+import { useDispatch, useSelector } from "react-redux";
 
-const Enroll = ({ labs, code }: { labs: any, code: any }) => {
+const Enroll = ({ code }: { code: any }) => {
 
-  console.log(labs)
-  console.log(code)
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (code) {
+      dispatch<any>(getLabsByCourse(code));
+    }
+  }, []);
+
+  const labs = useSelector((state: any) => state.matriculateReducer.labData)
+
+  const handleClick = (groupValue: string) => {
+   console.log("Selected group:", groupValue);
+  }
 
   return (
     <div className="">
@@ -10,8 +24,8 @@ const Enroll = ({ labs, code }: { labs: any, code: any }) => {
         <div className="grid gap-4 md:grid-cols-2 lg:gap-8 p-4 md:p-10 mt-2">
           {
             labs.map((lab: any) => (
-              <div key={lab}
-              className="flex flex-col p-6 space-y-6 transition-all duration-500 bg-lime-300 border border-indigo-100 rounded-lg shadow hover:shadow-2xl lg:p-8 lg:flex-row lg:space-y-0 lg:space-x-6">
+              <button key={lab._id} onClick={() => handleClick(lab.group)}
+              className="flex flex-col p-6 space-y-6 transition-all duration-500 bg-lime-300 border border-indigo-100 rounded-lg shadow hover:shadow-2xl hover:bg-slate-100 hover:cursor-pointer lg:p-8 lg:flex-row lg:space-y-0 lg:space-x-6">
                 <div
                   className="flex items-center justify-center w-16 h-16 bg-green-100 border border-green-200 rounded-full shadow-inner lg:h-20 lg:w-20">
                   <svg className="w-10 h-10 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
@@ -22,16 +36,12 @@ const Enroll = ({ labs, code }: { labs: any, code: any }) => {
                           </svg>
                 </div>
                 <div className="flex-1">
-                  <h5 className="mb-3 text-xl font-bold lg:text-2xl">aaaaaa</h5>
-                  <p className="mb-6 text-gray-600">Find out what plan is right for you</p>
-                  <p className="mb-6 text-gray-600">Find out what plan is right for you</p>
-                  <p className="mb-6 text-gray-600">Find out what plan is right for you</p>
-                  <span className="flex items-baseline text-lg font-bold text-blue-900">
-                    Grupo {lab}
-                    <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                  </span>
+                  <h5 className="mb-2 text-xl font-bold lg:text-2xl">Grupo {lab.group}</h5>
+                  <p className="mb-2 text-gray-600">Teacher: {lab.teacher}</p>
+                  <p className="mb-2 text-gray-600">Schedule: {lab.schedule}</p>
+                  <p className="mb-2 text-gray-600">Schedule: {lab.quantity}</p>
                 </div>
-              </div>
+              </button>
             ))
           }
         </div>

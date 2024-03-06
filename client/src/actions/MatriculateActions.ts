@@ -12,13 +12,14 @@ export const getCourseByCode = (code: string) => async (dispatch: any) => {
 }
 
 export const getLabsByCourse = (code: string) => async (dispatch: any) => {
-  dispatch({ type: 'RETREIVING_START' });
+  dispatch({ type: 'GET_LABS_START' });
   try {
     const { data } = await MatriculateApi.getLabsByCourse(code);
-    dispatch({ type: 'RETREIVING_SUCCESS', data: data });
+    console.log("DATA => ", data);
+    dispatch({ type: 'GET_LABS_SUCCESS', data: data });
   } catch (error) {
     console.log(error);
-    dispatch({ type: 'RETREIVING_FAIL' });
+    dispatch({ type: 'GET_LABS_FAIL' });
   }
 
 }

@@ -2,10 +2,9 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getCourseByCode } from "../actions/MatriculateActions";
-import NavBar from "../components/NavBar"
+import NavBar from "../components/NavBar";
 import NonMatriculate from "../components/NonMatriculate";
 import Enroll from "../components/Enroll";
-
 
 const Matriculate = () => {
   const dispatch = useDispatch();
@@ -19,8 +18,10 @@ const Matriculate = () => {
     }
   }, []);
 
-  const { labs, startime} = useSelector((state: any) => state.matriculateReducer.matriculateData);
-  console.log(labs)
+  const matriculateData = useSelector(
+    (state: any) => state.matriculateReducer.matriculateData
+  );
+  const { labs, startime } = matriculateData || { labs: [], startime: "" };
 
   const getCurrentDateTime = () => {
     const date = new Date();
@@ -42,14 +43,22 @@ const Matriculate = () => {
     return currentDate >= matriculateStartDate;
   };
 
+  if (!Array.isArray(labs) || labs.length === 0) {
+    return <div>No Labs to Enroll</div>;
+  }
+
+  if (!startime) {
+    return <div>Start time is not defined</div>;
+  }
+
   return (
     <div>
       <NavBar user={user} />
       {!isMatriculateOpen() && <NonMatriculate />}
       {/* En lugar de pasarle solo las letras en labs, se deben pasar toda la info de cada lab haciendo otro dispatch */}
-      {isMatriculateOpen() && <Enroll labs={labs} />}
+      {isMatriculateOpen() && <Enroll cui={user.cui} code={code} />}
     </div>
-  )
-}
+  );
+};
 
-export default Matriculate
+export default Matriculate;

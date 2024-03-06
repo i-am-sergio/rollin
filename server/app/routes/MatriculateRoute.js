@@ -1,8 +1,14 @@
-import express from 'express'
-import { getCourseByCode } from '../controllers/MatriculateController.js';
+import express from "express";
+import {
+  getCourseByCode,
+  getAllLabsByCourseCode,
+  matriculateUserToLab,
+} from "../controllers/MatriculateController.js";
 
-const router = express.Router()
+const router = express.Router();
 
-router.get("/:code", getCourseByCode)
+router.get("/:code", getCourseByCode);
+router.get("/:code/labs", getAllLabsByCourseCode);
+router.post("/:cui/:course/:group", matriculateUserToLab);
 
-export default router
+export default router;

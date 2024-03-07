@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { createLab, updateLab, deleteLab } from "../actions/LabActions";
 import { addLabToCourse, deleteLabFromCourse } from "../actions/CourseActions";
 import { Navigate, useNavigate } from "react-router-dom";
-
+import ScheduleManager from "./ScheduleManager";
 interface LabFormData {
   course: string;
   group: string;
@@ -16,6 +16,7 @@ interface InputFieldProps {
   name: string;
   placeholder: string;
   type?: string;
+  maxLength?: number;
   value: string | number;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
@@ -24,6 +25,7 @@ const InputField: React.FC<InputFieldProps> = ({
   name,
   placeholder,
   type = "text",
+  maxLength,
   value,
   onChange,
 }) => (
@@ -31,6 +33,7 @@ const InputField: React.FC<InputFieldProps> = ({
     type={type}
     name={name}
     placeholder={placeholder}
+    maxLength={maxLength}
     className="outline-none my-4 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-lime-300 dark:focus:border-lime-300"
     value={value}
     onChange={onChange}
@@ -81,7 +84,9 @@ const Lab = ({
   }, [data, labData]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setData({ ...data, [e.target.name]: e.target.value });
+    const value =
+      e.target.name === "group" ? e.target.value.toUpperCase() : e.target.value;
+    setData({ ...data, [e.target.name]: value });
   };
 
   const handleClickDelete = (e: any) => {
@@ -97,6 +102,17 @@ const Lab = ({
       alert(`Lab ${labData.course} grupo ${letter} eliminado!`);
       navigate("/home");
     }
+  };
+
+  const handleSchedulesChange = (schedules) => {
+    const schedulesString = schedules
+      .map(
+        (schedule) =>
+          `${schedule.startTime}-${schedule.endTime} ${schedule.day}`
+      )
+      .join(", ");
+    console.log(schedulesString);
+    // Aquí puedes actualizar el estado de un componente padre o enviarlo a una API
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -123,6 +139,7 @@ const Lab = ({
         <InputField
           name="group"
           placeholder="Group"
+          maxLength={3}
           value={data.group}
           onChange={handleChange}
         />
@@ -132,6 +149,7 @@ const Lab = ({
           value={data.teacher}
           onChange={handleChange}
         />
+        <ScheduleManager onChange={handleSchedulesChange} />
         <InputField
           name="schedule"
           placeholder="Schedule"

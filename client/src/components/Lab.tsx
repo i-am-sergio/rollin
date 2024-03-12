@@ -64,6 +64,7 @@ const Lab = ({
   const dispatch = useDispatch();
   const [data, setData] = useState(initialState);
   const [isChanged, setChanged] = useState<boolean>(false);
+  const [scheduleChanged, setScheduleChanged] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -104,20 +105,27 @@ const Lab = ({
     }
   };
 
-  const handleSchedulesChange = (schedules) => {
+  const handleSchedulesChange = (schedules: any) => {
     const schedulesString = schedules
       .map(
-        (schedule) =>
+        (schedule: any) =>
           `${schedule.startTime}-${schedule.endTime} ${schedule.day}`
       )
       .join(", ");
-    console.log(schedulesString);
-    // Aquí puedes actualizar el estado de un componente padre o enviarlo a una API
+    if (schedulesString !== data.schedule) {
+      data.schedule = schedulesString;
+      setScheduleChanged(true);
+    } else {
+      setScheduleChanged(false);
+    }
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (mode === "edit" || (mode === "view" && isChanged)) {
+    if (
+      (mode === "edit" && scheduleChanged) ||
+      (mode === "view" && isChanged && scheduleChanged)
+    ) {
       if (mode === "edit") {
         dispatch<any>(createLab(data));
         dispatch<any>(addLabToCourse({ course: data.course, lab: data.group }));
@@ -149,12 +157,9 @@ const Lab = ({
           value={data.teacher}
           onChange={handleChange}
         />
-        <ScheduleManager onChange={handleSchedulesChange} />
-        <InputField
-          name="schedule"
-          placeholder="Schedule"
+        <ScheduleManager
+          onChange={handleSchedulesChange}
           value={data.schedule}
-          onChange={handleChange}
         />
         <InputField
           name="quantity"

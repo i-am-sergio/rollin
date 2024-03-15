@@ -2,8 +2,9 @@ import { useSelector, useDispatch } from "react-redux";
 import Courses from "./Courses";
 import { useEffect, useState } from "react";
 import { getAllCourses } from "../actions/CourseActions";
+import { Course } from "../interfaces/Course";
 
-const Admin: React.FC = () => {
+const AdminSection: React.FC = () => {
   const dispatch = useDispatch();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedCicle, setSelectedCicle] = useState("");
@@ -89,4 +90,4 @@ const Admin: React.FC = () => {
   );
 };
 
-export default Admin;
+export default AdminSection;

@@ -13,8 +13,6 @@ const AdminSection: React.FC = () => {
     setSelectedCicle(event.target.value);
   };
 
-  // user data from redux
-  // const { user } = useSelector((state: any) => state.authReducer.authData);
   let { coursesData } = useSelector((state: any) => state.courseReducer);
 
   useEffect(() => {
@@ -23,8 +21,8 @@ const AdminSection: React.FC = () => {
   }, [dispatch]);
 
   // Funcion para seleccionar solo los cursos que estan en el semestre 1
-  const coursesPerSemester = (s: number) => {
-    return coursesData.filter((course: any) => course.semestre == s);
+  const coursesPerSemester = (s: number) : Course[] => {
+    return coursesData.filter((course: Course) => course.semestre == s);
   };
 
   useEffect(() => {

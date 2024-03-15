@@ -1,10 +1,14 @@
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-const Courses = ({ courses }: any) => {
+import { Course } from "../interfaces/Course";
+
+const Courses: React.FC<{ courses: Course[] }> = ({ courses }) => {
+
   const { t } = useTranslation();
+
   return (
     <div className="flex flex-wrap justify-center mt-10">
-      {courses.map((course: any) => (
+      {courses.map((course: Course) => (
         <div className="p-4 max-w-sm" key={course.code}>
           <div className="flex rounded-lg h-full dark:bg-gray-800 bg-teal-400 p-8 flex-col">
             <div className="flex items-center mb-3">

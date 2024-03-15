@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { createLab, updateLab, deleteLab } from "../actions/LabActions";
 import { addLabToCourse, deleteLabFromCourse } from "../actions/CourseActions";
 import { Navigate, useNavigate } from "react-router-dom";
-
+import ScheduleManager from "./ScheduleManager";
 interface LabFormData {
   course: string;
   group: string;
@@ -16,6 +16,7 @@ interface InputFieldProps {
   name: string;
   placeholder: string;
   type?: string;
+  maxLength?: number;
   value: string | number;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
@@ -24,6 +25,7 @@ const InputField: React.FC<InputFieldProps> = ({
   name,
   placeholder,
   type = "text",
+  maxLength,
   value,
   onChange,
 }) => (
@@ -31,6 +33,7 @@ const InputField: React.FC<InputFieldProps> = ({
     type={type}
     name={name}
     placeholder={placeholder}
+    maxLength={maxLength}
     className="outline-none my-4 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-lime-300 dark:focus:border-lime-300"
     value={value}
     onChange={onChange}
@@ -61,6 +64,7 @@ const Lab = ({
   const dispatch = useDispatch();
   const [data, setData] = useState(initialState);
   const [isChanged, setChanged] = useState<boolean>(false);
+  const [scheduleChanged, setScheduleChanged] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -81,7 +85,9 @@ const Lab = ({
   }, [data, labData]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setData({ ...data, [e.target.name]: e.target.value });
+    const value =
+      e.target.name === "group" ? e.target.value.toUpperCase() : e.target.value;
+    setData({ ...data, [e.target.name]: value });
   };
 
   const handleClickDelete = (e: any) => {
@@ -99,9 +105,27 @@ const Lab = ({
     }
   };
 
+  const handleSchedulesChange = (schedules: any) => {
+    const schedulesString = schedules
+      .map(
+        (schedule: any) =>
+          `${schedule.startTime}-${schedule.endTime} ${schedule.day}`
+      )
+      .join(", ");
+    if (schedulesString !== data.schedule) {
+      data.schedule = schedulesString;
+      setScheduleChanged(true);
+    } else {
+      setScheduleChanged(false);
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (mode === "edit" || (mode === "view" && isChanged)) {
+    if (
+      (mode === "edit" && scheduleChanged) ||
+      (mode === "view" && isChanged && scheduleChanged)
+    ) {
       if (mode === "edit") {
         dispatch<any>(createLab(data));
         dispatch<any>(addLabToCourse({ course: data.course, lab: data.group }));
@@ -123,6 +147,7 @@ const Lab = ({
         <InputField
           name="group"
           placeholder="Group"
+          maxLength={3}
           value={data.group}
           onChange={handleChange}
         />
@@ -132,11 +157,9 @@ const Lab = ({
           value={data.teacher}
           onChange={handleChange}
         />
-        <InputField
-          name="schedule"
-          placeholder="Schedule"
+        <ScheduleManager
+          onChange={handleSchedulesChange}
           value={data.schedule}
-          onChange={handleChange}
         />
         <InputField
           name="quantity"

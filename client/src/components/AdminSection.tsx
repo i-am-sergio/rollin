@@ -2,8 +2,9 @@ import { useSelector, useDispatch } from "react-redux";
 import Courses from "./Courses";
 import { useEffect, useState } from "react";
 import { getAllCourses } from "../actions/CourseActions";
+import { Course } from "../interfaces/Course";
 
-const Admin: React.FC = () => {
+const AdminSection: React.FC = () => {
   const dispatch = useDispatch();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedCicle, setSelectedCicle] = useState("");
@@ -12,8 +13,6 @@ const Admin: React.FC = () => {
     setSelectedCicle(event.target.value);
   };
 
-  // user data from redux
-  // const { user } = useSelector((state: any) => state.authReducer.authData);
   let { coursesData } = useSelector((state: any) => state.courseReducer);
 
   useEffect(() => {
@@ -22,8 +21,8 @@ const Admin: React.FC = () => {
   }, [dispatch]);
 
   // Funcion para seleccionar solo los cursos que estan en el semestre 1
-  const coursesPerSemester = (s: number) => {
-    return coursesData.filter((course: any) => course.semestre == s);
+  const coursesPerSemester = (s: number) : Course[] => {
+    return coursesData.filter((course: Course) => course.semestre == s);
   };
 
   useEffect(() => {
@@ -89,4 +88,4 @@ const Admin: React.FC = () => {
   );
 };
 
-export default Admin;
+export default AdminSection;

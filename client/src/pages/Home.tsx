@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
-import Labs from "../components/Labs";
-import Admin from "../components/Admin";
+import UserSection from "../components/UserSection";
+import AdminSection from "../components/AdminSection";
 import NavBar from "../components/NavBar";
 
 const Home: React.FC = () => {
@@ -11,8 +11,8 @@ const Home: React.FC = () => {
       
       <NavBar user={user} />
  
-      {user.role === "user" && <Labs user={user} courses={filteredCourses} />}
-      {user.role === "admin" && <Admin />}
+      {user.role === "user" && <UserSection user={user} courses={filteredCourses} />}
+      {user.role === "admin" && <AdminSection />}
     
     </div>
   );

@@ -1,15 +1,17 @@
-import UserModel from "../models/UserModel.js";
-import CourseModel from "../models/CourseModel.js";
+import UserModel from "../models/UserModel";
+import CourseModel from "../models/CourseModel";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import {
   extractCourses,
   getInfoConstancia,
   validateData,
-} from "../services/FileService.js";
+} from "../services/FileService";
+import { Request, Response } from "express";
+import multer from 'multer';
 
 // Register new user.
-export const registerUser = async (req, res) => {
+export const registerUser = async (req: Request, res: Response) => {
   const salt = await bcrypt.genSalt(10);
   const hashedPass = await bcrypt.hash(req.body.password, salt);
   req.body.password = hashedPass;
@@ -22,7 +24,7 @@ export const registerUser = async (req, res) => {
     const existingUser = await UserModel.findOne({ cui });
     if (existingUser)
       return res.status(400).json({ message: "El usuario ya existe" });
-  } catch (error) {
+  } catch (error : any) {
     return res.status(500).json({ message: error.message });
   }
 
@@ -54,11 +56,11 @@ export const registerUser = async (req, res) => {
       const user = await newUser.save();
       const token = jwt.sign(
         { cui: user.cui, id: user._id },
-        process.env.JWTKEY,
+        process.env.JWTKEY || "MERN",
         { expiresIn: "1h" }
       );
       return res.status(200).json({ user, token });
-    } catch (error) {
+    } catch (error : any) {
       return res.status(500).json({ message: error.message });
     }
   } else {
@@ -70,7 +72,7 @@ export const registerUser = async (req, res) => {
 };
 
 // Login User
-export const loginUser = async (req, res) => {
+export const loginUser = async (req: Request, res: Response) => {
   const { cui, password } = req.body;
   try {
     const user = await UserModel.findOne({ cui: cui }); // Buscar por cui
@@ -81,12 +83,15 @@ export const loginUser = async (req, res) => {
       } else {
         const userCourseNames = user.courses;
         // Filtrar los cursos de la base de datos cuyos nombres estén en la lista de nombres de cursos del usuario
-        const filteredCourses = await CourseModel.find({ name: { $in: userCourseNames }, labs: { $ne: [] } });
-        console.log("FILTER:", filteredCourses); 
+        const filteredCourses = await CourseModel.find({
+          name: { $in: userCourseNames },
+          labs: { $ne: [] },
+        });
+        console.log("FILTER:", filteredCourses);
 
         const token = jwt.sign(
           { cui: user.cui, id: user._id },
-          process.env.JWTKEY,
+          process.env.JWTKEY || "MERN",
           { expiresIn: "1h" }
         );
         res.status(200).json({ user, filteredCourses, token });
@@ -94,7 +99,7 @@ export const loginUser = async (req, res) => {
     } else {
       res.status(404).json("Usuario no encontrado");
     }
-  } catch (err) {
+  } catch (err : any) {
     res.status(500).json(err);
   }
 };

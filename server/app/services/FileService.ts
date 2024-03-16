@@ -1,21 +1,26 @@
 import { getDocument } from "pdfjs-dist";
+import { PDFDocumentProxy } from "pdfjs-dist/types/src/display/api";
 
-export async function getInfoConstancia(src) {
+export async function getInfoConstancia(src: string): Promise<string[]> {
   try {
-    const pdf = await getDocument(src).promise;
+    const pdf: PDFDocumentProxy = await getDocument(src).promise;
     const page = await pdf.getPage(1);
     const content = await page.getTextContent();
-    return content.items.map((item) => item.str);
+    return content.items.map((item) => {
+      if ("str" in item) {
+        return item.str;
+      }
+      return ""; // O cualquier valor predeterminado que desees
+    });
   } catch (error) {
     console.error("Error al obtener elementos del PDF:", error);
     throw error;
   }
 }
-
-export async function validateData(items, full_name, cui) {
+export async function validateData(items : any, full_name : any, cui : any) {
   try {
-    const validateItem = (itemName, errorMessage) => {
-      const itemIndex = items.findIndex((item) => item === itemName);
+    const validateItem = (itemName : any, errorMessage : any) => {
+      const itemIndex = items.findIndex((item : any) => item === itemName);
       if (itemIndex === -1) {
         throw new Error(errorMessage);
       }
@@ -52,9 +57,9 @@ export async function validateData(items, full_name, cui) {
   }
 }
 
-export async function extractCourses(items) {
+export async function extractCourses(items: string[]): Promise<string[]> {
   try {
-    const extractedCourses = [];
+    const extractedCourses: string[] = [];
     let currentIndex = 71;
     while (currentIndex < items.length) {
       const currentCourse = items[currentIndex];

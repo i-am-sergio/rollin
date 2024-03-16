@@ -1,6 +1,7 @@
-import { saveUser } from "../services/UserService.js";
+import { saveUser } from "../services/UserService";
+import { Request, Response } from "express";
 
-export const userMatriculate = async (req, res) => {
+export const userMatriculate = async (req : Request, res : Response) => {
   try {
     const user = req.body;
     // validate request

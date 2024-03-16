@@ -1,7 +1,8 @@
-import CourseModel from "../models/CourseModel.js";
-import LabModel from "../models/LabModel.js";
+import CourseModel from "../models/CourseModel";
+import LabModel from "../models/LabModel";
+import { Request, Response } from "express";
 
-export const getCourseByCode = async (req, res) => {
+export const getCourseByCode = async (req : Request, res : Response) => {
     try {
         const course = await CourseModel.findOne({ code: req.params.code });
         return res.status(200).json(course);
@@ -11,7 +12,7 @@ export const getCourseByCode = async (req, res) => {
     }
 }
 
-export const getAllLabsByCourseCode = async (req, res) => {
+export const getAllLabsByCourseCode = async (req : Request, res : Response) => {
     try {
         // get labs by course code
         const labs = await LabModel.find({ course: req.params.code });
@@ -24,7 +25,7 @@ export const getAllLabsByCourseCode = async (req, res) => {
 
 // route:  router.post("/:cui/:course/:group", matriculateUserToLab);
 
-export const matriculateUserToLab = async (req, res) => {
+export const matriculateUserToLab = async (req : Request, res : Response) => {
     try {
         // get lab by course and group
         const lab = await LabModel.findOne({ course: req.params.course, group: req.params.group });

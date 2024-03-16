@@ -1,6 +1,6 @@
 import express from 'express'
-import upload from '../../config/storage.js';
-import { loginUser, registerUser } from '../controllers/AuthController.js'
+import upload from '../../config/storage';
+import { loginUser, registerUser } from '../controllers/AuthController'
 
 const router = express.Router()
 

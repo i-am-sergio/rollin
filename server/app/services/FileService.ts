@@ -1,22 +1,18 @@
-import { getDocument } from "pdfjs-dist";
-import { PDFDocumentProxy } from "pdfjs-dist/types/src/display/api";
 
 export async function getInfoConstancia(src: string): Promise<string[]> {
   try {
-    const pdf: PDFDocumentProxy = await getDocument(src).promise;
-    const page = await pdf.getPage(1);
+    const pdf = await import("pdfjs-dist");
+    const pdfDocument = await pdf.getDocument(src).promise;
+    const page = await pdfDocument.getPage(1);
     const content = await page.getTextContent();
-    return content.items.map((item) => {
-      if ("str" in item) {
-        return item.str;
-      }
-      return ""; // O cualquier valor predeterminado que desees
-    });
+    return content.items.map((item: any) => item.str);
   } catch (error) {
     console.error("Error al obtener elementos del PDF:", error);
     throw error;
   }
 }
+
+
 export async function validateData(items : any, full_name : any, cui : any) {
   try {
     const validateItem = (itemName : any, errorMessage : any) => {

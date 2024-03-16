@@ -13,10 +13,14 @@ export async function getInfoConstancia(src: string): Promise<string[]> {
 }
 
 
-export async function validateData(items : any, full_name : any, cui : any) {
+export async function validateData(
+  items: string[],
+  full_name: string,
+  cui: string
+): Promise<boolean> {
   try {
-    const validateItem = (itemName : any, errorMessage : any) => {
-      const itemIndex = items.findIndex((item : any) => item === itemName);
+    const validateItem = (itemName: string, errorMessage: string): number => {
+      const itemIndex = items.findIndex((item) => item === itemName);
       if (itemIndex === -1) {
         throw new Error(errorMessage);
       }
@@ -53,17 +57,19 @@ export async function validateData(items : any, full_name : any, cui : any) {
   }
 }
 
+
 export async function extractCourses(items: string[]): Promise<string[]> {
   try {
     const extractedCourses: string[] = [];
-    let currentIndex = 71;
+    let currentIndex: number = 71;
     while (currentIndex < items.length) {
-      const currentCourse = items[currentIndex];
+      const currentCourse: string = items[currentIndex];
       if (
         currentCourse === currentCourse.toUpperCase() &&
-        currentCourse !== " "
-      )
+        currentCourse.trim() !== ""
+      ) {
         extractedCourses.push(currentCourse);
+      }
       currentIndex += 17;
     }
     return extractedCourses;

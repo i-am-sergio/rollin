@@ -5,7 +5,7 @@ export const getUsers = async (req : any, res : any) => {
     try {
         const users = await UserModel.find();
         return res.status(200).json(users);
-    } catch (error) {
+    } catch (error : any) {
         return res.status(500).json({ message: error.message });
     }
 };
@@ -16,7 +16,7 @@ export const getUserByCui = async (req : any, res : any) => {
         const user = await UserModel.findOne({ cui: req.params.cui });
         return res.status(200).json(user);
     }
-    catch (error) {
+    catch (error : any) {
         return res.status(500).json({ message: error.message });
     }
 }

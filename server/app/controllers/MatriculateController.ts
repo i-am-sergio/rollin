@@ -7,7 +7,7 @@ export const getCourseByCode = async (req : Request, res : Response) => {
         const course = await CourseModel.findOne({ code: req.params.code });
         return res.status(200).json(course);
     }
-    catch (error) {
+    catch (error : any) {
         return res.status(500).json({ message: error.message });
     }
 }
@@ -18,7 +18,7 @@ export const getAllLabsByCourseCode = async (req : Request, res : Response) => {
         const labs = await LabModel.find({ course: req.params.code });
         return res.status(200).json(labs);
     }
-    catch (error) {
+    catch (error : any) {
         return res.status(500).json({ message: error.message });
     }
 }
@@ -46,7 +46,7 @@ export const matriculateUserToLab = async (req : Request, res : Response) => {
         await lab.save();
         return res.status(200).json(lab);
     }
-    catch (error) {
+    catch (error : any) {
         return res.status(500).json({ message: error.message });
     }
 }

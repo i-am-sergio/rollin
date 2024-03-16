@@ -31,7 +31,7 @@ export const labFindAll = async (req : Request, res :Response) => {
   }
 };
 
-export const labFindByCourse = async (req, res) => {
+export const labFindByCourse = async (req : Request, res :Response) => {
   try {
     const course = req.params.course;
     if (!course) {
@@ -46,7 +46,7 @@ export const labFindByCourse = async (req, res) => {
   }
 };
 
-export const labUpdateByCourse = async (req, res) => {
+export const labUpdateByCourse = async (req : Request, res :Response) => {
   try {
     const group = req.params.group;
     const course = req.params.course;

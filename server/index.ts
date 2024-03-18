@@ -3,14 +3,14 @@ import bodyParser from "body-parser";
 import cors from "cors";
 import dotenv from "dotenv";
 
-import { connectDB } from "./config/database.js";
-import AuthRoute from "./app/routes/AuthRoute.js";
-import FileRoute from "./app/routes/FileRoute.js";
-import UserRoute from "./app/routes/UserRoute.js";
-import AdminRoute from "./app/routes/AdminRoute.js";
-import CourseRoute from "./app/routes/CourseRoute.js";
-import LabRoute from "./app/routes/LabRoute.js";
-import MatriculateRoute from './app/routes/MatriculateRoute.js'
+import { connectDB } from "./config/database";
+import AuthRoute from "./app/routes/AuthRoute";
+import FileRoute from "./app/routes/FileRoute";
+import UserRoute from "./app/routes/UserRoute";
+import AdminRoute from "./app/routes/AdminRoute";
+import CourseRoute from "./app/routes/CourseRoute";
+import LabRoute from "./app/routes/LabRoute";
+import MatriculateRoute from './app/routes/MatriculateRoute'
 
 const app = express();
 const port = process.env.PORT || 5000;

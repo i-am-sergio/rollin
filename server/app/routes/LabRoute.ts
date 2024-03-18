@@ -5,7 +5,7 @@ import {
   labFindByCourse,
   labDeleteByCourse,
   labUpdateByCourse,
-} from "../controllers/LabController.js";
+} from "../controllers/LabController";
 
 const router = express.Router();
 

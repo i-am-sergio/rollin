@@ -4,10 +4,11 @@ import {
   addLabToCourse,
   deleteLabFromCourse,
   updateCourse,
-} from "../services/CourseService.js";
-import CourseModel from "../models/CourseModel.js";
+} from "../services/CourseService";
+import CourseModel from "../models/CourseModel";
+import { Request, Response } from "express";
 
-export const courseCreate = async (req, res) => {
+export const courseCreate = async (req : Request, res : Response) => {
   try {
     const { name, code, semestre } = req.body;
     if (!req.body) {
@@ -15,7 +16,7 @@ export const courseCreate = async (req, res) => {
       res.status(400).json({ message: "Content can not be empty!" });
       return;
     }
-    const newCourse = CourseModel({ name, code, semestre });
+    const newCourse = new CourseModel({ name, code, semestre });
     await newCourse.save();
     return res.status(200).json(newCourse);
   } catch (error) {
@@ -23,7 +24,7 @@ export const courseCreate = async (req, res) => {
   }
 };
 
-export const courseFindAll = async (req, res) => {
+export const courseFindAll = async (req : Request, res : Response) => {
   try {
     const data = await getAllCourses();
     return res.status(200).json(
@@ -36,7 +37,7 @@ export const courseFindAll = async (req, res) => {
   }
 };
 
-export const courseFindAllWithLabs = async (req, res) => {
+export const courseFindAllWithLabs = async (req : Request, res : Response) => {
   try {
     // get all courses with labs with course service
     const data = await getAllCoursesWithLabs();
@@ -46,7 +47,7 @@ export const courseFindAllWithLabs = async (req, res) => {
   }
 };
 
-export const courseAddLab = async (req, res) => {
+export const courseAddLab = async (req : Request, res : Response) => {
   try {
     const { course, lab } = req.body;
     console.log(course, lab);
@@ -58,7 +59,7 @@ export const courseAddLab = async (req, res) => {
   }
 };
 
-export const courseDeleteLab = async (req, res) => {
+export const courseDeleteLab = async (req : Request, res : Response) => {
   try {
     const { course, lab } = req.body;
     console.log(course, lab);
@@ -71,7 +72,7 @@ export const courseDeleteLab = async (req, res) => {
 };
 
 // course update function save new startime
-export const courseUpdate = async (req, res) => {
+export const courseUpdate = async (req : Request, res : Response) => {
   try {
     const { code } = req.params;
     const { startime } = req.body;

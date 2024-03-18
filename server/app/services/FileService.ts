@@ -1,26 +1,38 @@
-import { getDocument } from "pdfjs-dist";
 
-export async function getInfoConstancia(src) {
+export async function getInfoConstancia(src: string): Promise<string[]> {
   try {
-    const pdf = await getDocument(src).promise;
-    const page = await pdf.getPage(1);
+    const pdf = await import("pdfjs-dist");
+    const pdfDocument = await pdf.getDocument(src).promise;
+    const page = await pdfDocument.getPage(1);
     const content = await page.getTextContent();
-    return content.items.map((item) => item.str);
+    // Filtrar los elementos que no están vacíos ni son cadenas de espacios en blanco
+    const filteredItems = content.items
+      .map((item: any) => item.str)
+      .filter((str: string) => str.trim() !== '');
+
+    return filteredItems;
   } catch (error) {
     console.error("Error al obtener elementos del PDF:", error);
     throw error;
   }
 }
 
-export async function validateData(items, full_name, cui) {
+
+export async function validateData(
+  items: string[],
+  full_name: string,
+  cui: string
+): Promise<boolean> {
   try {
-    const validateItem = (itemName, errorMessage) => {
+    
+    const validateItem = (itemName: string, errorMessage: string): number => {
       const itemIndex = items.findIndex((item) => item === itemName);
       if (itemIndex === -1) {
         throw new Error(errorMessage);
       }
-      return itemIndex + 2;
+      return itemIndex + 1;
     };
+
     if (items.length === 0 || items[0] !== "CONSTANCIA DE MATRICULA") {
       throw new Error("No es una Constancia de Matrícula válida");
     }
@@ -52,19 +64,22 @@ export async function validateData(items, full_name, cui) {
   }
 }
 
-export async function extractCourses(items) {
+
+export async function extractCourses(items: string[]): Promise<string[]> {
   try {
-    const extractedCourses = [];
-    let currentIndex = 71;
+    const extractedCourses: string[] = [];
+    let currentIndex: number = 38;
     while (currentIndex < items.length) {
-      const currentCourse = items[currentIndex];
+      const currentCourse: string = items[currentIndex];
       if (
         currentCourse === currentCourse.toUpperCase() &&
-        currentCourse !== " "
-      )
+        currentCourse.trim() !== ""
+      ) {
         extractedCourses.push(currentCourse);
-      currentIndex += 17;
+      }
+      currentIndex += 8;
     }
+    console.log("Cursos extraidos:", extractedCourses);
     return extractedCourses;
   } catch (error) {
     console.error("Error al extraer los cursos:", error);

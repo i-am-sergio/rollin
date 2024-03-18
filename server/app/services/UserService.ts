@@ -1,5 +1,7 @@
+import UserModel from '../models/UserModel';
+
 // save user in the database mongoose function 
-export const saveUser = async (user) => {
+export const saveUser = async (user : any) => {
     try {
         const newUser = new UserModel({
             username: user.username,

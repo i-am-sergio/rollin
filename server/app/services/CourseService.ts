@@ -1,5 +1,4 @@
-// save course in the database mongoose function
-import CourseModel from "../models/CourseModel.js";
+import CourseModel from "../models/CourseModel";
 
 // get all courses from the database mongoose function
 export const getAllCourses = async () => {
@@ -19,7 +18,7 @@ export const getAllCoursesWithLabs = async () => {
   }
 };
 
-export const addLabToCourse = async (course, lab) => {
+export const addLabToCourse = async (course : any, lab : any) => {
   try {
     const courseFound = await CourseModel.findOne({ code: course });
     if (!courseFound) {
@@ -32,7 +31,7 @@ export const addLabToCourse = async (course, lab) => {
   }
 };
 
-export const deleteLabFromCourse = async (course, lab) => {
+export const deleteLabFromCourse = async (course : any, lab : any) => {
   try {
     const courseFound = await CourseModel.findOne({ code: course });
     if (!courseFound) {
@@ -45,7 +44,7 @@ export const deleteLabFromCourse = async (course, lab) => {
   }
 };
 
-export const updateCourse = async (code, startime) => {
+export const updateCourse = async (code : any, startime : any) => {
   try {
     const courseFound = await CourseModel.findOne({ code: code });
     if (!courseFound) {

@@ -1,6 +1,6 @@
 import express from 'express'
-import upload from '../../config/storage.js';
-import { getItems, uploadFile } from '../controllers/FileController.js';
+import upload from '../../config/storage';
+import { getItems, uploadFile } from '../controllers/FileController';
 
 const router = express.Router()
 

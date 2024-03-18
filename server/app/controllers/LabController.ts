@@ -4,9 +4,10 @@ import {
   getAllLabsByCourse,
   deleteLabByCourse,
   updateLabByCourse,
-} from "../services/LabService.js";
+} from "../services/LabService";
+import { Request, Response } from "express"
 
-export const labCreate = async (req, res) => {
+export const labCreate = async (req : Request, res : Response) => {
   try {
     const lab = req.body;
     if (!req.body) {
@@ -21,7 +22,7 @@ export const labCreate = async (req, res) => {
   }
 };
 
-export const labFindAll = async (req, res) => {
+export const labFindAll = async (req : Request, res :Response) => {
   try {
     const data = await getAllLabs();
     return res.status(200).json(data);
@@ -30,7 +31,7 @@ export const labFindAll = async (req, res) => {
   }
 };
 
-export const labFindByCourse = async (req, res) => {
+export const labFindByCourse = async (req : Request, res :Response) => {
   try {
     const course = req.params.course;
     if (!course) {
@@ -45,7 +46,7 @@ export const labFindByCourse = async (req, res) => {
   }
 };
 
-export const labUpdateByCourse = async (req, res) => {
+export const labUpdateByCourse = async (req : Request, res :Response) => {
   try {
     const group = req.params.group;
     const course = req.params.course;
@@ -62,7 +63,7 @@ export const labUpdateByCourse = async (req, res) => {
   }
 };
 
-export const labDeleteByCourse = async (req, res) => {
+export const labDeleteByCourse = async (req : Request, res : Response) => {
   try {
     const group = req.params.group;
     const course = req.params.course;

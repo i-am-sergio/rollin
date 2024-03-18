@@ -1,6 +1,6 @@
-import LabModel from "../models/LabModel.js";
+import LabModel from "../models/LabModel";
 
-export const saveLab = async (lab) => {
+export const saveLab = async (lab : any) => {
   try {
     const newLab = new LabModel({
       group: lab.group,
@@ -23,7 +23,7 @@ export const getAllLabs = async () => {
   }
 };
 
-export const getAllLabsByCourse = async (course) => {
+export const getAllLabsByCourse = async (course : any) => {
   try {
     return await LabModel.find({ course });
   } catch (error) {
@@ -31,7 +31,7 @@ export const getAllLabsByCourse = async (course) => {
   }
 };
 
-export const updateLabByCourse = async (group, course, newData) => {
+export const updateLabByCourse = async (group : any, course : any, newData : any) => {
   try {
     const existingLab = await LabModel.findOne({ group, course });
     if (!existingLab) {
@@ -51,7 +51,7 @@ export const updateLabByCourse = async (group, course, newData) => {
   }
 };
 
-export const deleteLabByCourse = async (group, course) => {
+export const deleteLabByCourse = async (group : any, course : any) => {
   try {
     const lab = await LabModel.findOneAndDelete({ group, course });
     if (!lab) {

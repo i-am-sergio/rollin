@@ -1,5 +1,5 @@
 import express from 'express'
-import { userMatriculate } from '../controllers/UserController.js';
+import { userMatriculate } from '../controllers/UserController';
 
 const router = express.Router()
 

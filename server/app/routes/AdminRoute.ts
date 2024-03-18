@@ -1,5 +1,5 @@
 import express from 'express'
-import { getUserByCui, getUsers } from '../controllers/AdminController.js'
+import { getUserByCui, getUsers } from '../controllers/AdminController'
 
 const router = express.Router()
 

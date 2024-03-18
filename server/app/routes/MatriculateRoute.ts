@@ -3,7 +3,7 @@ import {
   getCourseByCode,
   getAllLabsByCourseCode,
   matriculateUserToLab,
-} from "../controllers/MatriculateController.js";
+} from "../controllers/MatriculateController";
 
 const router = express.Router();
 

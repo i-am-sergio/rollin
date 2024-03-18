@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+import { Schema, model } from "mongoose";
 
-const LabSchema = mongoose.Schema({
+const LabSchema = new Schema({
   group: { type: String, required: true },
   course: { type: String, required: true },
   teacher: { type: String, required: true },
@@ -9,6 +9,6 @@ const LabSchema = mongoose.Schema({
   students: [],
 });
 
-const LabModel = mongoose.model("Labs", LabSchema);
+const LabModel = model("Labs", LabSchema);
 
 export default LabModel;

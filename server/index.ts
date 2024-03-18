@@ -5,7 +5,7 @@ import dotenv from "dotenv";
 
 import { connectDB } from "./config/database";
 import AuthRoute from "./app/routes/AuthRoute";
-// import FileRoute from "./app/routes/FileRoute";
+import FileRoute from "./app/routes/FileRoute";
 import UserRoute from "./app/routes/UserRoute";
 import AdminRoute from "./app/routes/AdminRoute";
 import CourseRoute from "./app/routes/CourseRoute";
@@ -23,7 +23,7 @@ app.use(cors()); // for enabling CORS
 
 // routes
 app.use("/auth", AuthRoute);
-// app.use("/file", FileRoute);
+app.use("/file", FileRoute);
 app.use("/user", UserRoute);
 app.use("/admin", AdminRoute);
 app.use("/course", CourseRoute);

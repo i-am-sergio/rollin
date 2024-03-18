@@ -2,7 +2,7 @@ import {
   getInfoConstancia,
   extractCourses,
   validateData,
-} from "../services/FileService.js";
+} from "../services/FileService";
 import { Request, Response } from "express";
 
 // get items from pdf

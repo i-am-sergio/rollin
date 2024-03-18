@@ -8,7 +8,8 @@ import {
   validateData,
 } from "../services/FileService";
 import { Request, Response } from "express";
-import multer from 'multer';
+
+const JWTKEY: string = process.env.JWTKEY ?? "MERN";
 
 // Register new user.
 export const registerUser = async (req: Request, res: Response) => {
@@ -56,7 +57,7 @@ export const registerUser = async (req: Request, res: Response) => {
       const user = await newUser.save();
       const token = jwt.sign(
         { cui: user.cui, id: user._id },
-        process.env.JWTKEY || "MERN",
+        JWTKEY,
         { expiresIn: "1h" }
       );
       return res.status(200).json({ user, token });
@@ -91,7 +92,7 @@ export const loginUser = async (req: Request, res: Response) => {
 
         const token = jwt.sign(
           { cui: user.cui, id: user._id },
-          process.env.JWTKEY || "MERN",
+          JWTKEY,
           { expiresIn: "1h" }
         );
         res.status(200).json({ user, filteredCourses, token });
